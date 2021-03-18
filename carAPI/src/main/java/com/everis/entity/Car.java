@@ -1,6 +1,5 @@
 package com.everis.entity;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Car {
