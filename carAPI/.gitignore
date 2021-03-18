@@ -83,5 +83,3 @@ buildNumber.properties
 .flattened-pom.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,maven
-carAPI/.classpath
-carAPI/.project
