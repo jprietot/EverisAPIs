@@ -25,7 +25,9 @@ import javax.ws.rs.core.UriInfo;
 
 import com.everis.entity.Car;
 
-@Path("/Cars")
+@Path("/cars")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class CarResource {
 	
 	private static Map<Long, Car> cars = new HashMap<Long, Car>();
@@ -41,7 +43,6 @@ public class CarResource {
 	}
 	//Devuelve todos los coches
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	public List<Car> getCars(){
 		return new ArrayList<Car>(cars.values());
 	}
@@ -49,7 +50,6 @@ public class CarResource {
 	//Devuelve un coche a traves de una id
 	@GET
 	@Path("/{carId}")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCar(@PathParam("carId") long id) {
 		Car newCar = cars.get(id);
 		if(newCar==null) {
@@ -62,8 +62,6 @@ public class CarResource {
 	
 	//Recibe un coche y lo añade al array
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response createCar(Car car, @Context UriInfo uriInfo) {
 		cars.put(car.getId(), car);
 		String newId = String.valueOf(car.getId());
@@ -74,8 +72,6 @@ public class CarResource {
 	//Recibe un coche y actualiza sus datos
 	@PUT
 	@Path("/{carId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateCar(@PathParam("carId") long id, Car car) {
 		car.setId(id);
 		if(car.getId()<=0) {
@@ -89,7 +85,6 @@ public class CarResource {
 	//Recibe un id de coche y borra el coche con ese id
 	@DELETE
 	@Path("/{carId}")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteCar(@PathParam("carId") long id) {
 		Car newCar = cars.remove(id);
 		//Añadir logica

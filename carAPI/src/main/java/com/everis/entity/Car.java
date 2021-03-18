@@ -8,22 +8,22 @@ public class Car {
 	private String brand;
 	private LocalDateTime registration;
 	private String country;
-	private LocalDateTime created_at;
-	private LocalDateTime last_updated;
+	private LocalDateTime createdAt;
+	private LocalDateTime lastUpdated;
 	
 	//Constructor por defecto
 	public Car() {}
 	
 	//Constructor parametrizado
-	public Car(long id, String brand, LocalDateTime registration, String country, LocalDateTime created_at,
-			LocalDateTime last_updated) {
+	public Car(long id, String brand, LocalDateTime registration, String country, LocalDateTime createdAt,
+			LocalDateTime lastUpdated) {
 		super();
 		this.id = id;
 		this.brand = brand;
 		this.registration = registration;
 		this.country = country;
-		this.created_at = created_at;
-		this.last_updated = last_updated;
+		this.createdAt = createdAt;
+		this.lastUpdated = lastUpdated;
 	}
 
 	//Getters & Setters
@@ -51,17 +51,17 @@ public class Car {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public LocalDateTime getCreated_at() {
-		return created_at;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
-	public LocalDateTime getLast_updated() {
-		return last_updated;
+	public LocalDateTime getLastUpdated() {
+		return lastUpdated;
 	}
-	public void setLast_updated(LocalDateTime last_updated) {
-		this.last_updated = last_updated;
+	public void setLastUpdated(LocalDateTime lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 	
 	
