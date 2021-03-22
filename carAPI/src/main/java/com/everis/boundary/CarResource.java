@@ -1,13 +1,8 @@
 package com.everis.boundary;
 
-
-
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
@@ -23,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.everis.control.CarService;
 import com.everis.entity.Car;
 
 @Path("/cars")
@@ -30,28 +26,20 @@ import com.everis.entity.Car;
 @Consumes(MediaType.APPLICATION_JSON)
 public class CarResource {
 	
-	private static Map<Long, Car> cars = new HashMap<Long, Car>();
+	private CarService carService = new CarService();
 	
-	public CarResource() {
-		// TODO Auto-generated constructor stub
-		Car newCar1 = new Car(1, "Coche1", LocalDateTime.now(), "España", LocalDateTime.now(), LocalDateTime.now());
-		Car newCar2 = new Car(2, "Coche2", LocalDateTime.now(), "España", LocalDateTime.now(), LocalDateTime.now());
-		Car newCar3 = new Car(3, "Coche3", LocalDateTime.now(), "España", LocalDateTime.now(), LocalDateTime.now());
-		cars.put(1l, newCar1);
-		cars.put(2l, newCar2);
-		cars.put(3l, newCar3);
-	}
 	//Devuelve todos los coches
 	@GET
-	public List<Car> getCars(){
-		return new ArrayList<Car>(cars.values());
+	public Response getCars(){
+		List<Car> carList = carService.getCars();
+		return Response.status(Status.OK).entity(carList).build();
 	}
 	
 	//Devuelve un coche a traves de una id
 	@GET
 	@Path("/{carId}")
 	public Response getCar(@PathParam("carId") long id) {
-		Car newCar = cars.get(id);
+		Car newCar = carService.getCar(id);
 		if(newCar==null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -63,10 +51,10 @@ public class CarResource {
 	//Recibe un coche y lo añade al array
 	@POST
 	public Response createCar(Car car, @Context UriInfo uriInfo) {
-		cars.put(car.getId(), car);
-		String newId = String.valueOf(car.getId());
+		Car newCar = carService.createCar(car);
+		String newId = String.valueOf(newCar.getId());
 		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
-		return Response.created(uri).entity(car).build();
+		return Response.created(uri).entity(newCar).build();
 	}
 
 	//Recibe un coche y actualiza sus datos
@@ -74,25 +62,25 @@ public class CarResource {
 	@Path("/{carId}")
 	public Response updateCar(@PathParam("carId") long id, Car car) {
 		car.setId(id);
-		if(car.getId()<=0) {
-			//Devolver mediante objeto error
+		Car newCar = carService.updateCar(car);
+		if(newCar==null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		cars.put(car.getId(), car);
-		return Response.status(Status.OK).entity(car).build();
+		else {
+			return Response.status(Status.OK).entity(newCar).build();
+		}
 	}
 
 	//Recibe un id de coche y borra el coche con ese id
 	@DELETE
 	@Path("/{carId}")
 	public Response deleteCar(@PathParam("carId") long id) {
-		Car newCar = cars.remove(id);
-		//Añadir logica
-		if(newCar==null) {
+		Car deletedCar = carService.deleteCar(id);
+		if(deletedCar==null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
-			return Response.status(Status.OK).entity(newCar).build();
+			return Response.status(Status.OK).entity(deletedCar).build();
 		}
 	}
 	
