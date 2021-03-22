@@ -1,7 +1,5 @@
 package com.everis.boundary;
 
-
-
 import java.net.URI;
 import java.util.List;
 
@@ -32,8 +30,9 @@ public class CarResource {
 	
 	//Devuelve todos los coches
 	@GET
-	public List<Car> getCars(){
-		return carService.getCars();
+	public Response getCars(){
+		List<Car> carList = carService.getCars();
+		return Response.status(Status.OK).entity(carList).build();
 	}
 	
 	//Devuelve un coche a traves de una id
@@ -76,12 +75,12 @@ public class CarResource {
 	@DELETE
 	@Path("/{carId}")
 	public Response deleteCar(@PathParam("carId") long id) {
-		Car newCar = carService.deleteCar(id);
-		if(newCar==null) {
+		Car deletedCar = carService.deleteCar(id);
+		if(deletedCar==null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
-			return Response.status(Status.OK).entity(newCar).build();
+			return Response.status(Status.OK).entity(deletedCar).build();
 		}
 	}
 	

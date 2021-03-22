@@ -14,7 +14,6 @@ public class CarService {
 	private static Map<Long, Car> cars = new HashMap<Long, Car>();
 	
 	public CarService() {
-		// TODO Auto-generated constructor stub
 		Car newCar1 = new Car(1, "Coche1", LocalDateTime.now(), "España", LocalDateTime.now(), LocalDateTime.now());
 		Car newCar2 = new Car(2, "Coche2", LocalDateTime.now(), "España", LocalDateTime.now(), LocalDateTime.now());
 		Car newCar3 = new Car(3, "Coche3", LocalDateTime.now(), "España", LocalDateTime.now(), LocalDateTime.now());
@@ -42,11 +41,14 @@ public class CarService {
 
 	//Recibe un coche y actualiza sus datos
 	public Car updateCar(Car car) {
-		if(car.getId()<=0) {
+		//Comprobar que el coche existe
+		if(!cars.containsKey(car.getId())) {
 			return null;
 		}
-		cars.put(car.getId(), car);
-		return car;
+		else {
+			cars.put(car.getId(), car);
+			return car;
+		}
 	}
 
 	//Recibe un id de coche y borra el coche con ese id
