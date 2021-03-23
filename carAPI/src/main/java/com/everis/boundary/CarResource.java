@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
+import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,12 +24,14 @@ import javax.ws.rs.core.UriInfo;
 import com.everis.control.CarService;
 import com.everis.entity.Car;
 
+
 @Path("/cars")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CarResource {
 	
-	private CarService carService = new CarService();
+	@Inject
+	private CarService carService;
 	
 	//Devuelve todos los coches
 	@GET
@@ -39,12 +44,12 @@ public class CarResource {
 	@GET
 	@Path("/{carId}")
 	public Response getCar(@PathParam("carId") long id) {
-		Car newCar = carService.getCar(id);
-		if(newCar==null) {
+		Car car = carService.getCar(id);
+		if(car==null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
-			return Response.status(Status.OK).entity(newCar).build();
+			return Response.status(Status.OK).entity(car).build();
 		}
 	}
 	
@@ -62,12 +67,12 @@ public class CarResource {
 	@Path("/{carId}")
 	public Response updateCar(@PathParam("carId") long id, Car car) {
 		car.setId(id);
-		Car newCar = carService.updateCar(car);
-		if(newCar==null) {
+		Car updCar = carService.updateCar(car);
+		if(updCar==null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
-			return Response.status(Status.OK).entity(newCar).build();
+			return Response.status(Status.OK).entity(updCar).build();
 		}
 	}
 

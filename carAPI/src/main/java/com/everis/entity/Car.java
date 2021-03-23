@@ -1,13 +1,32 @@
 package com.everis.entity;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Car {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@Column(nullable = false)
 	private String brand;
+	
+	@Column(nullable = false)
 	private LocalDateTime registration;
+	
+	@Column(nullable = false)
 	private String country;
+	
+	@Column(nullable = false)
 	private LocalDateTime createdAt;
+	
+	@Column(nullable = false)
 	private LocalDateTime lastUpdated;
 	
 	//Constructor por defecto
@@ -18,6 +37,16 @@ public class Car {
 			LocalDateTime lastUpdated) {
 		super();
 		this.id = id;
+		this.brand = brand;
+		this.registration = registration;
+		this.country = country;
+		this.createdAt = createdAt;
+		this.lastUpdated = lastUpdated;
+	}
+	
+	public Car(String brand, LocalDateTime registration, String country, LocalDateTime createdAt,
+			LocalDateTime lastUpdated) {
+		super();
 		this.brand = brand;
 		this.registration = registration;
 		this.country = country;
