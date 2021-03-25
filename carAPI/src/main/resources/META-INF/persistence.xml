@@ -9,6 +9,7 @@
         <properties>
             <!-- database connection -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="javax.persistence.sql-load-script-source" value="data.sql" />
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
 
