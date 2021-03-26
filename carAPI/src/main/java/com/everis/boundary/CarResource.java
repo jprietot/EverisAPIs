@@ -21,6 +21,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.log4j.Logger;
+
 import com.everis.control.CarService;
 import com.everis.entity.Car;
 
@@ -30,12 +32,15 @@ import com.everis.entity.Car;
 @Consumes(MediaType.APPLICATION_JSON)
 public class CarResource {
 	
+	private static final Logger LOG = Logger.getLogger(CarResource.class);
+	
 	@Inject
 	private CarService carService;
 	
 	//Devuelve todos los coches
 	@GET
 	public Response getCars(){
+		LOG.info("Getting cars list");
 		List<Car> carList = carService.getCars();
 		return Response.status(Status.OK).entity(carList).build();
 	}
@@ -44,11 +49,14 @@ public class CarResource {
 	@GET
 	@Path("/{carId}")
 	public Response getCar(@PathParam("carId") long id) {
+		LOG.info("Getting car by id: " + id);
 		Car car = carService.getCar(id);
 		if(car==null) {
+			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
+			LOG.info("Car found");
 			return Response.status(Status.OK).entity(car).build();
 		}
 	}
@@ -56,6 +64,7 @@ public class CarResource {
 	//Recibe un coche y lo añade al array
 	@POST
 	public Response createCar(Car car, @Context UriInfo uriInfo) {
+		LOG.info("Creating new car");
 		Car newCar = carService.createCar(car);
 		String newId = String.valueOf(newCar.getId());
 		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
@@ -66,12 +75,15 @@ public class CarResource {
 	@PUT
 	@Path("/{carId}")
 	public Response updateCar(@PathParam("carId") long id, Car car) {
+		LOG.info("Updating car by id: " + id);
 		car.setId(id);
 		Car updCar = carService.updateCar(car);
 		if(updCar==null) {
+			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
+			LOG.info("Car updated");
 			return Response.status(Status.OK).entity(updCar).build();
 		}
 	}
@@ -80,11 +92,14 @@ public class CarResource {
 	@DELETE
 	@Path("/{carId}")
 	public Response deleteCar(@PathParam("carId") long id) {
+		LOG.info("Deleting car by id: " + id);
 		Car deletedCar = carService.deleteCar(id);
 		if(deletedCar==null) {
+			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
+			LOG.info("Car deleted");
 			return Response.status(Status.OK).entity(deletedCar).build();
 		}
 	}

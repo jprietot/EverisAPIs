@@ -14,22 +14,29 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
+
+import com.everis.boundary.CarResource;
 import com.everis.entity.Car;
 
 @Stateless
 public class CarService {
+	
+	private static final Logger LOG = Logger.getLogger(CarService.class);
 	
 	@PersistenceContext(unitName = "carAPI")
 	private EntityManager em;
 	
 	//Devuelve todos los coches
 	public List<Car> getCars(){
+		LOG.info("Getting cars list");
 		Query query = em.createQuery("SELECT c FROM Car c");
 		return (List<Car>)query.getResultList();
 	}
 	
 	//Devuelve un coche a traves de una id
 	public Car getCar(long id) {
+		LOG.info("Getting car by id: " + id);
 		Car car = em.find(Car.class, id);
 		return car;
 	}
@@ -37,6 +44,7 @@ public class CarService {
 	//Recibe un coche y lo añade al array
 	@Transactional
 	public Car createCar(Car car) {
+		LOG.info("Creating new car");
 		em.persist(car);
 		return car;
 	}
@@ -44,6 +52,7 @@ public class CarService {
 	//Recibe un coche y actualiza sus datos
 	@Transactional
 	public Car updateCar(Car car) {
+		LOG.info("Updating car:");
 		if(getCar(car.getId())==null) {
 			return null;
 		}
@@ -56,6 +65,7 @@ public class CarService {
 	//Recibe un id de coche y borra el coche con ese id
 	@Transactional
 	public Car deleteCar(long id) {
+		LOG.info("Deleting car by id: " + id);
 		Car car = getCar(id);
 		em.remove(car);
 		return car;
