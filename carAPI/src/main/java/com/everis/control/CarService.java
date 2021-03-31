@@ -8,15 +8,12 @@ import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
 
-import com.everis.boundary.CarResource;
 import com.everis.entity.Car;
 
 @Stateless
@@ -30,8 +27,8 @@ public class CarService {
 	//Devuelve todos los coches
 	public List<Car> getCars(){
 		LOG.info("Getting cars list");
-		Query query = em.createQuery("SELECT c FROM Car c");
-		return (List<Car>)query.getResultList();
+		TypedQuery<Car> query = em.createQuery("SELECT c FROM Car c", Car.class);
+		return query.getResultList();
 	}
 	
 	//Devuelve un coche a traves de una id

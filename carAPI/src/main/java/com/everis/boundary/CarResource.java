@@ -30,7 +30,7 @@ import com.everis.entity.Car;
 @Path("/cars")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class CarResource {
+public class CarResource implements CarResourceInterface{
 	
 	private static final Logger LOG = Logger.getLogger(CarResource.class);
 	
