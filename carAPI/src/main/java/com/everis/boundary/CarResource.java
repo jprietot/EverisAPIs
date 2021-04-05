@@ -9,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,18 +22,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.log4j.Logger;
-
 import com.everis.control.CarService;
 import com.everis.entity.Car;
+import com.everis.utils.LoggerInterceptor;
 
 
 @Path("/cars")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Interceptors(LoggerInterceptor.class)
 public class CarResource implements CarResourceInterface{
-	
-	private static final Logger LOG = Logger.getLogger(CarResource.class);
 	
 	@Inject
 	private CarService carService;
@@ -40,7 +39,6 @@ public class CarResource implements CarResourceInterface{
 	//Devuelve todos los coches
 	@GET
 	public Response getCars(){
-		LOG.info("Getting cars list");
 		List<Car> carList = carService.getCars();
 		return Response.status(Status.OK).entity(carList).build();
 	}
@@ -49,14 +47,11 @@ public class CarResource implements CarResourceInterface{
 	@GET
 	@Path("/{carId}")
 	public Response getCar(@PathParam("carId") long id) {
-		LOG.info("Getting car by id: " + id);
 		Car car = carService.getCar(id);
 		if(car==null) {
-			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
-			LOG.info("Car found");
 			return Response.status(Status.OK).entity(car).build();
 		}
 	}
@@ -64,7 +59,6 @@ public class CarResource implements CarResourceInterface{
 	//Recibe un coche y lo añade al array
 	@POST
 	public Response createCar(Car car, @Context UriInfo uriInfo) {
-		LOG.info("Creating new car");
 		Car newCar = carService.createCar(car);
 		String newId = String.valueOf(newCar.getId());
 		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
@@ -75,15 +69,12 @@ public class CarResource implements CarResourceInterface{
 	@PUT
 	@Path("/{carId}")
 	public Response updateCar(@PathParam("carId") long id, Car car) {
-		LOG.info("Updating car by id: " + id);
 		car.setId(id);
 		Car updCar = carService.updateCar(car);
 		if(updCar==null) {
-			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
-			LOG.info("Car updated");
 			return Response.status(Status.OK).entity(updCar).build();
 		}
 	}
@@ -92,14 +83,11 @@ public class CarResource implements CarResourceInterface{
 	@DELETE
 	@Path("/{carId}")
 	public Response deleteCar(@PathParam("carId") long id) {
-		LOG.info("Deleting car by id: " + id);
 		Car deletedCar = carService.deleteCar(id);
 		if(deletedCar==null) {
-			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		else {
-			LOG.info("Car deleted");
 			return Response.status(Status.OK).entity(deletedCar).build();
 		}
 	}
