@@ -1,0 +1,367 @@
+{
+	"info": {
+		"_postman_id": "7c88808e-b4fa-4a56-8cde-43d4dd253cec",
+		"name": "CarAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetCars",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get cars\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars",
+					"protocol": "http",
+					"host": [
+						"desktop-i5ipudi"
+					],
+					"port": "8080",
+					"path": [
+						"carAPI-0.0.1-SNAPSHOT",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCarById(1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get car: Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get car: Check car object\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(1);\r",
+							"    pm.expect(jsonData.brand).not.null;\r",
+							"    pm.expect(jsonData.country).not.null;\r",
+							"    pm.expect(jsonData.country).to.eql('Spain');\r",
+							"    pm.expect(jsonData.createdAt).not.null;\r",
+							"    pm.expect(jsonData.registration).not.null;\r",
+							"    pm.expect(jsonData.lastUpdated).not.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars/1",
+					"protocol": "http",
+					"host": [
+						"desktop-i5ipudi"
+					],
+					"port": "8080",
+					"path": [
+						"carAPI-0.0.1-SNAPSHOT",
+						"cars",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCarById(1000)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get car: Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars/1000",
+					"protocol": "http",
+					"host": [
+						"desktop-i5ipudi"
+					],
+					"port": "8080",
+					"path": [
+						"carAPI-0.0.1-SNAPSHOT",
+						"cars",
+						"1000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create car: Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Create car: Check car object\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.be.above(0);\r",
+							"    pm.expect(jsonData.brand).not.null;\r",
+							"    pm.expect(jsonData.country).not.null;\r",
+							"    pm.expect(jsonData.country).not.null;\r",
+							"    pm.expect(jsonData.createdAt).not.null;\r",
+							"    pm.expect(jsonData.registration).not.null;\r",
+							"    pm.expect(jsonData.lastUpdated).not.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Create car: Location header available\", function () {\r",
+							"    pm.response.to.have.header(\"Location\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"brand\": \"NewCar\",\r\n    \"country\": \"Spain\",\r\n    \"createdAt\": \"2021-03-23T11:54:40\",\r\n    \"lastUpdated\": \"2021-03-23T11:54:40\",\r\n    \"registration\": \"2021-03-23T11:54:40\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars",
+					"protocol": "http",
+					"host": [
+						"desktop-i5ipudi"
+					],
+					"port": "8080",
+					"path": [
+						"carAPI-0.0.1-SNAPSHOT",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateCarById(2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update car: Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Update car: Check car object\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.be.above(0);\r",
+							"    pm.expect(jsonData.brand).not.null;\r",
+							"    pm.expect(jsonData.country).not.null;\r",
+							"    pm.expect(jsonData.country).not.null;\r",
+							"    pm.expect(jsonData.createdAt).not.null;\r",
+							"    pm.expect(jsonData.registration).not.null;\r",
+							"    pm.expect(jsonData.lastUpdated).not.null;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"brand\": \"ModifiedCar\",\r\n    \"country\": \"Germany\",\r\n    \"createdAt\": \"2021-03-23T11:54:40\",\r\n    \"lastUpdated\": \"2021-03-23T11:54:40\",\r\n    \"registration\": \"2021-03-23T11:54:40\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars/2",
+					"protocol": "http",
+					"host": [
+						"desktop-i5ipudi"
+					],
+					"port": "8080",
+					"path": [
+						"carAPI-0.0.1-SNAPSHOT",
+						"cars",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateCarById(1000)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update car: Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"brand\": \"ModifiedCar\",\r\n    \"country\": \"Germany\",\r\n    \"createdAt\": \"2021-03-23T11:54:40\",\r\n    \"lastUpdated\": \"2021-03-23T11:54:40\",\r\n    \"registration\": \"2021-03-23T11:54:40\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars/1000",
+					"protocol": "http",
+					"host": [
+						"desktop-i5ipudi"
+					],
+					"port": "8080",
+					"path": [
+						"carAPI-0.0.1-SNAPSHOT",
+						"cars",
+						"1000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCarById(2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete car: Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars/2",
+					"protocol": "http",
+					"host": [
+						"desktop-i5ipudi"
+					],
+					"port": "8080",
+					"path": [
+						"carAPI-0.0.1-SNAPSHOT",
+						"cars",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCarById(1000)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete car: Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars/1000",
+					"protocol": "http",
+					"host": [
+						"desktop-i5ipudi"
+					],
+					"port": "8080",
+					"path": [
+						"carAPI-0.0.1-SNAPSHOT",
+						"cars",
+						"1000"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -67,7 +67,12 @@ public class CarService {
 	public Car deleteCar(long id) {
 		LOG.info("Deleting car by id: " + id);
 		Car car = getCar(id);
-		em.remove(car);
-		return car;
+		if(car == null) {
+			return null;
+		}
+		else {
+			em.remove(car);
+			return car;
+		}
 	}
 }
