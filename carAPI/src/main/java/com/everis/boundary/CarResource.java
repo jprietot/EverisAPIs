@@ -9,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -25,11 +26,13 @@ import org.apache.log4j.Logger;
 
 import com.everis.control.CarService;
 import com.everis.entity.Car;
+import com.everis.utils.LoggerInterceptor;
 
 
 @Path("/cars")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Interceptors(LoggerInterceptor.class)
 public class CarResource implements CarResourceInterface{
 	
 	private static final Logger LOG = Logger.getLogger(CarResource.class);

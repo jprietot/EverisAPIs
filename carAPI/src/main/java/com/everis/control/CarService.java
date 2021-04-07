@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -15,8 +16,10 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 
 import com.everis.entity.Car;
+import com.everis.utils.LoggerInterceptor;
 
 @Stateless
+@Interceptors(LoggerInterceptor.class)
 public class CarService {
 	
 	private static final Logger LOG = Logger.getLogger(CarService.class);

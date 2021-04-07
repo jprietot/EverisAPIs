@@ -1,1 +1,1 @@
-INSERT INTO car (id, brand, country, createdat, lastupdated, registration) VALUES ('1', 'Car1', 'Spain', '2021-03-23 11:54:40', '2021-03-23 11:54:40', '2021-03-23 11:54:40'), ('2', 'Car2', 'Spain', '2021-03-23 11:54:40', '2021-03-23 11:54:40', '2021-03-23 11:54:40');
+INSERT INTO car (brand, country, createdat, lastupdated, registration) VALUES ('Car1', 'Spain', '2021-03-23 11:54:40', '2021-03-23 11:54:40', '2021-03-23 11:54:40'), ('Car2', 'Spain', '2021-03-23 11:54:40', '2021-03-23 11:54:40', '2021-03-23 11:54:40');
