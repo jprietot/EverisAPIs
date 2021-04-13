@@ -1,0 +1,24 @@
+[2021-04-09 12:40:58] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-09 12:40:58] [ INFO ] [CarResource:55] Getting car by id: 3
+[2021-04-09 12:40:58] [ ERROR] [CarResource:58] Car not found
+[2021-04-09 12:41:31] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-09 12:41:31] [ INFO ] [CarResource:55] Getting car by id: 3
+[2021-04-09 12:41:31] [ ERROR] [CarResource:58] Car not found
+[2021-04-13 10:17:11] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:17:11] [ INFO ] [CarResource:55] Getting car by id: 3
+[2021-04-13 10:17:11] [ ERROR] [CarResource:58] Car not found
+[2021-04-13 10:18:44] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:18:44] [ INFO ] [CarResource:55] Getting car by id: 3
+[2021-04-13 10:18:44] [ ERROR] [CarResource:58] Car not found
+[2021-04-13 10:19:04] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:19:04] [ INFO ] [CarResource:55] Getting car by id: 3
+[2021-04-13 10:19:04] [ ERROR] [CarResource:58] Car not found
+[2021-04-13 10:19:11] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:20:22] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:25:21] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:39:22] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:51:59] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:52:31] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:55:13] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 10:55:26] [ INFO ] [CarResource:46] Getting cars list
+[2021-04-13 12:24:46] [ INFO ] [CarResource:46] Getting cars list
