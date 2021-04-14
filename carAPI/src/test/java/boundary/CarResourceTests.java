@@ -2,7 +2,6 @@ package boundary;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doNothing;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,16 +56,16 @@ public class CarResourceTests {
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 	}
 	
-	/*@Test
+	@Test
 	public void testGetCar() {
-		when(carService.getCar(Mockito.eq(3))).thenReturn(car);
+		when(carService.getCar(3)).thenReturn(car);
 		Response response = carResource.getCar(car.getId());
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
-	}*/
+	}
 	
-	/*@Test
+	@Test
 	public void testCreateCar() {
-		doNothing().when(carService).createCar(car);
+		when(carService.createCar(car)).thenReturn(car);
 		Response response = carResource.createCar(car, uriInfo);
 		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 	}
@@ -75,15 +74,15 @@ public class CarResourceTests {
 	public void testUpdateCar() {
 		when(carService.getCar(Mockito.eq(3))).thenReturn(car);
 		car.setBrand("TestCarUpdated");
-		doNothing().when(carService).updateCar(car);
+		when(carService.updateCar(car)).thenReturn(car);
 		Response response = carResource.updateCar(car.getId(), car);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 	}
 	
 	@Test
 	public void testDeleteCar() {
-		doNothing().when(carService).deleteCar(Mockito.eq(3));
+		when(carService.deleteCar(3)).thenReturn(car);
 		Response response = carResource.deleteCar(car.getId());
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
-	}*/
+	}
 }
