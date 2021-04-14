@@ -3,6 +3,8 @@ package boundary;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriBuilderException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +38,9 @@ public class CarResourceTests {
 	
 	@Mock
 	private UriInfo uriInfo;
+	
+	@Mock
+	private UriBuilder uriBuilder;
 	
 	private Car car;
 	
@@ -64,15 +71,24 @@ public class CarResourceTests {
 	}
 	
 	@Test
-	public void testCreateCar() {
+	public void testGetCarFail() {
+		when(carService.getCar(3)).thenReturn(null);
+		Response response = carResource.getCar(car.getId());
+		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+	}
+	
+	@Test
+	public void testCreateCar() throws IllegalArgumentException, UriBuilderException, URISyntaxException {
 		when(carService.createCar(car)).thenReturn(car);
+		when(uriInfo.getAbsolutePathBuilder()).thenReturn(uriBuilder);
+		when(uriBuilder.path("3")).thenReturn(uriBuilder);
+		when(uriBuilder.build()).thenReturn(new URI("testUri"));
 		Response response = carResource.createCar(car, uriInfo);
 		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 	}
 	
 	@Test
 	public void testUpdateCar() {
-		when(carService.getCar(Mockito.eq(3))).thenReturn(car);
 		car.setBrand("TestCarUpdated");
 		when(carService.updateCar(car)).thenReturn(car);
 		Response response = carResource.updateCar(car.getId(), car);
@@ -80,9 +96,24 @@ public class CarResourceTests {
 	}
 	
 	@Test
+	public void testUpdateCarFail() {
+		car.setBrand("TestCarUpdated");
+		when(carService.updateCar(car)).thenReturn(null);
+		Response response = carResource.updateCar(car.getId(), car);
+		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+	}
+	
+	@Test
 	public void testDeleteCar() {
 		when(carService.deleteCar(3)).thenReturn(car);
 		Response response = carResource.deleteCar(car.getId());
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+	}
+	
+	@Test
+	public void testDeleteCarFail() {
+		when(carService.deleteCar(3)).thenReturn(null);
+		Response response = carResource.deleteCar(car.getId());
+		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	}
 }
