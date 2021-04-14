@@ -13,26 +13,26 @@ public class PersistenceService<T,I> {
 	@PersistenceContext(unitName = "carAPI")
 	private EntityManager em;
 
-	public List<T> getCars(Class<T> c){
+	public List<T> getAll(Class<T> c){
 		TypedQuery<T> query = em.createQuery("SELECT c FROM Car c", c);
 		return query.getResultList();
 	}
 	
-	public T getCar(Class<T> c, I id) {
+	public T getById(Class<T> c, I id) {
 		return em.find(c, id);
 	}
 	
-	public T createCar(T entity) {
+	public T createOne(T entity) {
 		em.persist(entity);
 		return entity;
 	}
 
-	public T updateCar(T entity) {
+	public T updateOne(T entity) {
 		em.merge(entity);
 		return entity;
 	}
 
-	public T deleteCar(T entity) {
+	public T deleteOne(T entity) {
 		em.remove(entity);
 		return entity;
 	}

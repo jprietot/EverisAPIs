@@ -34,7 +34,7 @@ public class CarService {
 	 */
 	public List<Car> getCars(){
 		LOG.info("Getting cars list");
-		return persistenceService.getCars(Car.class);
+		return persistenceService.getAll(Car.class);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class CarService {
 	 */
 	public Car getCar(long id) {
 		LOG.info("Getting car by id: " + id);
-		return persistenceService.getCar(Car.class, id);
+		return persistenceService.getById(Car.class, id);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class CarService {
 	@Transactional
 	public Car createCar(Car car) {
 		LOG.info("Creating new car");
-		return persistenceService.createCar(car);
+		return persistenceService.createOne(car);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class CarService {
 			return null;
 		}
 		else {
-			return persistenceService.updateCar(car);
+			return persistenceService.updateOne(car);
 		}
 	}
 
@@ -87,7 +87,7 @@ public class CarService {
 			return null;
 		}
 		else {
-			return persistenceService.deleteCar(car);
+			return persistenceService.deleteOne(car);
 		}
 	}
 }
