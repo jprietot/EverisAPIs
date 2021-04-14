@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class CarResource implements CarResourceInterface{
 	
 	private static final Logger LOG = Logger.getLogger(CarResource.class);
 	
-	@Inject
+	@EJB
 	private CarService carService;
 	
 	//Devuelve todos los coches
