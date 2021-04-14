@@ -13,6 +13,11 @@ public class Car {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	/*
+	 * Tener en cuenta (cambiar a String)
+	 * @GeneratedValue(generator = "uuid2")
+	 * @GenericGenerator(name="uuid2", strategy="org.hibernate.id.UUIDGenerator")
+	 */
 	
 	@Column(nullable = false)
 	private String brand;
