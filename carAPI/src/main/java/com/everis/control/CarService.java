@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
@@ -24,8 +25,8 @@ public class CarService {
 	
 	private static final Logger LOG = Logger.getLogger(CarService.class);
 	
-	@PersistenceContext(unitName = "carAPI")
-	private EntityManager em;
+	@EJB
+	private PersistenceService<Car, Long> persistenceService;
 	
 	/**
 	 * Get a list of cars
@@ -33,8 +34,7 @@ public class CarService {
 	 */
 	public List<Car> getCars(){
 		LOG.info("Getting cars list");
-		TypedQuery<Car> query = em.createQuery("SELECT c FROM Car c", Car.class);
-		return query.getResultList();
+		return persistenceService.getCars(Car.class);
 	}
 	
 	/**
@@ -44,8 +44,7 @@ public class CarService {
 	 */
 	public Car getCar(long id) {
 		LOG.info("Getting car by id: " + id);
-		Car car = em.find(Car.class, id);
-		return car;
+		return persistenceService.getCar(Car.class, id);
 	}
 	
 	/**
@@ -56,8 +55,7 @@ public class CarService {
 	@Transactional
 	public Car createCar(Car car) {
 		LOG.info("Creating new car");
-		em.persist(car);
-		return car;
+		return persistenceService.createCar(car);
 	}
 
 	/**
@@ -72,8 +70,7 @@ public class CarService {
 			return null;
 		}
 		else {
-			em.merge(car);
-			return car;
+			return persistenceService.updateCar(car);
 		}
 	}
 
@@ -90,8 +87,7 @@ public class CarService {
 			return null;
 		}
 		else {
-			em.remove(car);
-			return car;
+			return persistenceService.deleteCar(car);
 		}
 	}
 }
