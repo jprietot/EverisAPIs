@@ -41,7 +41,10 @@ public class CarResource implements CarResourceInterface{
 	@EJB
 	private CarService carService;
 	
-	//Devuelve todos los coches
+	/**
+	 * Find all cars
+	 * @return a status code response
+	 */
 	@GET
 	public Response getCars(){
 		LOG.info("Getting cars list");
@@ -49,7 +52,11 @@ public class CarResource implements CarResourceInterface{
 		return Response.status(Status.OK).entity(carList).build();
 	}
 	
-	//Devuelve un coche a traves de una id
+	/**
+	 * Find a car by id
+	 * @param id the variable to identify the car
+	 * @return a status code response or a status code response and a car
+	 */
 	@GET
 	@Path("/{carId}")
 	public Response getCar(@PathParam("carId") long id) {
@@ -65,7 +72,12 @@ public class CarResource implements CarResourceInterface{
 		}
 	}
 	
-	//Recibe un coche y lo añade al array
+	/**
+	 * Create a car
+	 * @param car the entity that you gonna create
+	 * @param uriInfo the URI info that it corresponding to the requested resource
+	 * @return a status code response
+	 */
 	@POST
 	public Response createCar(Car car, @Context UriInfo uriInfo) {
 		LOG.info("Creating new car");
@@ -75,7 +87,12 @@ public class CarResource implements CarResourceInterface{
 		return Response.created(uri).entity(newCar).build();
 	}
 
-	//Recibe un coche y actualiza sus datos
+	/**
+	 * Update a car
+	 * @param id the variable to identify the car
+	 * @param car the entity that you gonna update
+	 * @return a status code response or a status code response and a car
+	 */
 	@PUT
 	@Path("/{carId}")
 	public Response updateCar(@PathParam("carId") long id, Car car) {
@@ -92,7 +109,11 @@ public class CarResource implements CarResourceInterface{
 		}
 	}
 
-	//Recibe un id de coche y borra el coche con ese id
+	/**
+	 * Delete a car
+	 * @param id the variable to identify the car
+	 * @return a status code response or a status code response and a car
+	 */
 	@DELETE
 	@Path("/{carId}")
 	public Response deleteCar(@PathParam("carId") long id) {
