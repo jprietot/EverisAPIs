@@ -86,4 +86,4 @@ buildNumber.properties
 carAPI/.classpath
 carAPI/.project
 
-*.log
+carAPI/*.log
