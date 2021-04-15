@@ -13,8 +13,8 @@ public class PersistenceService<T,I> {
 	@PersistenceContext(unitName = "carAPI")
 	private EntityManager em;
 
-	public List<T> getAll(Class<T> c){
-		TypedQuery<T> query = em.createQuery("SELECT c FROM Car c", c);
+	public List<T> getAll(String genericQuery, Class<T> c){
+		TypedQuery<T> query = em.createNamedQuery(genericQuery, c);
 		return query.getResultList();
 	}
 	

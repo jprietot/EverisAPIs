@@ -47,7 +47,7 @@ public class CarResourceTests {
 	@Before
 	public void setUp() throws Exception{
 		car = new Car();
-		car.setId(3);
+		car.setId("3");
 		car.setBrand("TestCar");
 		car.setCountry("Spain");
 		car.setRegistration(LocalDateTime.now());
@@ -65,14 +65,14 @@ public class CarResourceTests {
 	
 	@Test
 	public void testGetCar() {
-		when(carService.getCar(3)).thenReturn(car);
+		when(carService.getCar("3")).thenReturn(car);
 		Response response = carResource.getCar(car.getId());
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 	}
 	
 	@Test
 	public void testGetCarFail() {
-		when(carService.getCar(3)).thenReturn(null);
+		when(carService.getCar("3")).thenReturn(null);
 		Response response = carResource.getCar(car.getId());
 		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	}
@@ -105,14 +105,14 @@ public class CarResourceTests {
 	
 	@Test
 	public void testDeleteCar() {
-		when(carService.deleteCar(3)).thenReturn(car);
+		when(carService.deleteCar("3")).thenReturn(car);
 		Response response = carResource.deleteCar(car.getId());
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 	}
 	
 	@Test
 	public void testDeleteCarFail() {
-		when(carService.deleteCar(3)).thenReturn(null);
+		when(carService.deleteCar("3")).thenReturn(null);
 		Response response = carResource.deleteCar(car.getId());
 		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	}

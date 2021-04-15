@@ -26,7 +26,7 @@ public class CarService {
 	private static final Logger LOG = Logger.getLogger(CarService.class);
 	
 	@EJB
-	private PersistenceService<Car, Long> persistenceService;
+	private PersistenceService<Car, String> persistenceService;
 	
 	/**
 	 * Get a list of cars
@@ -34,7 +34,7 @@ public class CarService {
 	 */
 	public List<Car> getCars(){
 		LOG.info("Getting cars list");
-		return persistenceService.getAll(Car.class);
+		return persistenceService.getAll("Car.GetAllCars", Car.class);
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class CarService {
 	 * @param id the variable to identify the car
 	 * @return a car
 	 */
-	public Car getCar(long id) {
+	public Car getCar(String id) {
 		LOG.info("Getting car by id: " + id);
 		return persistenceService.getById(Car.class, id);
 	}
@@ -80,7 +80,7 @@ public class CarService {
 	 * @return a car or a null value
 	 */
 	@Transactional
-	public Car deleteCar(long id) {
+	public Car deleteCar(String id) {
 		LOG.info("Deleting car by id: " + id);
 		Car car = getCar(id);
 		if(car == null) {
