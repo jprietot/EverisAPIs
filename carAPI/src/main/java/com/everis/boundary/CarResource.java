@@ -59,7 +59,7 @@ public class CarResource implements CarResourceInterface{
 	 */
 	@GET
 	@Path("/{carId}")
-	public Response getCar(@PathParam("carId") long id) {
+	public Response getCar(@PathParam("carId") String id) {
 		LOG.info("Getting car by id: " + id);
 		Car car = carService.getCar(id);
 		if(car==null) {
@@ -95,7 +95,7 @@ public class CarResource implements CarResourceInterface{
 	 */
 	@PUT
 	@Path("/{carId}")
-	public Response updateCar(@PathParam("carId") long id, Car car) {
+	public Response updateCar(@PathParam("carId") String id, Car car) {
 		LOG.info("Updating car by id: " + id);
 		car.setId(id);
 		Car updCar = carService.updateCar(car);
@@ -116,7 +116,7 @@ public class CarResource implements CarResourceInterface{
 	 */
 	@DELETE
 	@Path("/{carId}")
-	public Response deleteCar(@PathParam("carId") long id) {
+	public Response deleteCar(@PathParam("carId") String id) {
 		LOG.info("Deleting car by id: " + id);
 		Car deletedCar = carService.deleteCar(id);
 		if(deletedCar==null) {

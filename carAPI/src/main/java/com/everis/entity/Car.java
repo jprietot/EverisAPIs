@@ -6,18 +6,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
+@NamedQuery(name="Car.GetAllCars", query="SELECT c FROM Car c")
 public class Car {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	/*
-	 * Tener en cuenta (cambiar a String)
-	 * @GeneratedValue(generator = "uuid2")
-	 * @GenericGenerator(name="uuid2", strategy="org.hibernate.id.UUIDGenerator")
-	 */
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name="uuid2", strategy="org.hibernate.id.UUIDGenerator")
+	private String id;
 	
 	@Column(nullable = false)
 	private String brand;
@@ -38,7 +38,7 @@ public class Car {
 	public Car() {}
 	
 	//Constructor parametrizado
-	public Car(long id, String brand, LocalDateTime registration, String country, LocalDateTime createdAt,
+	public Car(String id, String brand, LocalDateTime registration, String country, LocalDateTime createdAt,
 			LocalDateTime lastUpdated) {
 		super();
 		this.id = id;
@@ -60,11 +60,11 @@ public class Car {
 	}
 
 	//Getters & Setters
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

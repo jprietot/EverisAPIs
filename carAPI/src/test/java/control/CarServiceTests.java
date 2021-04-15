@@ -32,7 +32,7 @@ public class CarServiceTests {
 	@Before
 	public void setUp() throws Exception{
 		car = new Car();
-		car.setId(3);
+		car.setId("3");
 		car.setBrand("TestCar");
 		car.setCountry("Spain");
 		car.setRegistration(LocalDateTime.now());
@@ -50,9 +50,9 @@ public class CarServiceTests {
 	
 	@Test
 	public void testGetCar() {
-		doReturn(car).when(carService).getCar(3);
+		doReturn(car).when(carService).getCar("3");
 		Car carExpected = car;
-		Car carToCompare = carService.getCar(3);
+		Car carToCompare = carService.getCar("3");
 		assertEquals(carToCompare, carExpected);
 	}
 	
@@ -66,9 +66,9 @@ public class CarServiceTests {
 	
 	@Test
 	public void testUpdateCar() {
-		doReturn(car).when(carService).getCar(3);
+		doReturn(car).when(carService).getCar("3");
 		car.setBrand("TestCarUpdated");
-		Car carUpdate = carService.getCar(3);
+		Car carUpdate = carService.getCar("3");
 		doReturn(carUpdate).when(carService).updateCar(car);
 		Car carExpected = carUpdate;
 		Car carToCompare = carService.updateCar(car);
@@ -77,9 +77,9 @@ public class CarServiceTests {
 	
 	@Test
 	public void testDeleteCar() {
-		doReturn(car).when(carService).deleteCar(3);
+		doReturn(car).when(carService).deleteCar("3");
 		Car carExpected = car;
-		Car carToCompare = carService.deleteCar(3);
+		Car carToCompare = carService.deleteCar("3");
 		assertEquals(carToCompare, carExpected);
 	}
 }

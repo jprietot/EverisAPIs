@@ -21,7 +21,7 @@ public interface CarResourceInterface {
 			@ApiResponse(responseCode = "200", description = "Return car"),
 	})
 	@Parameter(description = "Car id", required = true)
-	public Response getCar(long id);
+	public Response getCar(String id);
 	
 	@Operation(description = "Create a car")
 	@ApiResponse(responseCode = "200", description = "Return the car that you created")
@@ -35,12 +35,12 @@ public interface CarResourceInterface {
 	})
 	@Parameter(description = "Car id", required = true)
 	@Parameter(description = "Car", required = true)
-	public Response updateCar(long id, Car car);
+	public Response updateCar(String id, Car car);
 
 	@Operation(description = "Delete a car", responses = {
 			@ApiResponse(responseCode = "404", description = "Car not found"),
 			@ApiResponse(responseCode = "200", description = "Return the deleted car"),
 	})
 	@Parameter(description = "Car id", required = true)
-	public Response deleteCar(long id);
+	public Response deleteCar(String id);
 }
