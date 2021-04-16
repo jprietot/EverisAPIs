@@ -36,10 +36,10 @@ public class CarService {
 	 * Get a list of cars
 	 * @return a car list
 	 */
-	public List<CarDto> getCars(){
+	public List<Car> getCars(){
 		LOG.info("Getting cars list");
 		List<Car> carList = persistenceService.getAll("Car.GetAllCars", Car.class);
-		return carMapper.carListToCarListDto(carList);
+		return carList;
 	}
 	
 	/**
@@ -47,10 +47,10 @@ public class CarService {
 	 * @param id the variable to identify the car
 	 * @return a car
 	 */
-	public CarDto getCar(String id) {
+	public Car getCar(String id) {
 		LOG.info("Getting car by id: " + id);
 		Car car = persistenceService.getById(Car.class, id);
-		return carMapper.carToCarDto(car);
+		return car;
 	}
 	
 	/**
@@ -59,10 +59,10 @@ public class CarService {
 	 * @return a car
 	 */
 	@Transactional
-	public CarDto createCar(CarDto car) {
+	public Car createCar(CarDto car) {
 		LOG.info("Creating new car");
 		Car newCar = persistenceService.createOne(carMapper.carDtoToCar(car));
-		return carMapper.carToCarDto(newCar);
+		return newCar;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class CarService {
 	 * @return a car or a null value
 	 */
 	@Transactional
-	public CarDto updateCar(CarDto car) {
+	public Car updateCar(CarDto car) {
 		LOG.info("Updating car:");
 		Car carToUpdate = persistenceService.getById(Car.class, car.getId());
 		if(carToUpdate==null) {
@@ -79,7 +79,7 @@ public class CarService {
 		}
 		else {
 			carToUpdate = persistenceService.updateOne(carMapper.carDtoToCar(car));
-			return carMapper.carToCarDto(carToUpdate);
+			return carToUpdate;
 		}
 	}
 
@@ -89,7 +89,7 @@ public class CarService {
 	 * @return a car or a null value
 	 */
 	@Transactional
-	public CarDto deleteCar(String id) {
+	public Car deleteCar(String id) {
 		LOG.info("Deleting car by id: " + id);
 		Car carToDelete = persistenceService.getById(Car.class, id);
 		if(carToDelete == null) {
@@ -97,7 +97,7 @@ public class CarService {
 		}
 		else {
 			carToDelete = persistenceService.deleteOne(carToDelete);
-			return carMapper.carToCarDto(carToDelete);
+			return carToDelete;
 		}
 	}
 }
