@@ -26,6 +26,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.everis.boundary.CarResource;
 import com.everis.control.CarService;
 import com.everis.entity.Car;
+import com.everis.entity.CarDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarResourceTests {
@@ -42,11 +43,11 @@ public class CarResourceTests {
 	@Mock
 	private UriBuilder uriBuilder;
 	
-	private Car car;
+	private CarDto car;
 	
 	@Before
 	public void setUp() throws Exception{
-		car = new Car();
+		car = new CarDto();
 		car.setId("3");
 		car.setBrand("TestCar");
 		car.setCountry("Spain");
@@ -57,7 +58,7 @@ public class CarResourceTests {
 	
 	@Test
 	public void testGetCars() {
-		List<Car> carList = new ArrayList<Car>();
+		List<CarDto> carList = new ArrayList<CarDto>();
 		when(this.carService.getCars()).thenReturn(carList);
 		Response response = this.carResource.getCars();
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());

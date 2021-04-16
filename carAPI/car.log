@@ -175,3 +175,26 @@
 [2021-04-15 10:00:24] [ INFO ] [CarResource:83] Creating new car
 [2021-04-15 10:00:24] [ INFO ] [CarResource:63] Getting car by id: 3
 [2021-04-15 10:00:24] [ INFO ] [CarResource:70] Car found
+[2021-04-15 16:48:41] [ INFO ] [CarResource:121] Deleting car by id: 3
+[2021-04-15 16:48:41] [ ERROR] [CarResource:124] Car not found
+[2021-04-15 16:48:41] [ INFO ] [CarResource:51] Getting cars list
+[2021-04-15 16:48:41] [ INFO ] [CarResource:121] Deleting car by id: 3
+[2021-04-15 16:48:41] [ INFO ] [CarResource:128] Car deleted
+[2021-04-15 16:48:41] [ INFO ] [CarResource:64] Getting car by id: 3
+[2021-04-15 16:48:41] [ ERROR] [CarResource:67] Car not found
+[2021-04-15 16:48:41] [ INFO ] [CarResource:64] Getting car by id: 3
+[2021-04-15 16:48:41] [ INFO ] [CarResource:71] Car found
+[2021-04-16 10:14:13] [ INFO ] [CarResource:121] Deleting car by id: 3
+[2021-04-16 10:14:13] [ ERROR] [CarResource:124] Car not found
+[2021-04-16 10:14:13] [ INFO ] [CarResource:100] Updating car by id: 3
+[2021-04-16 10:14:13] [ INFO ] [CarResource:108] Car updated
+[2021-04-16 10:14:13] [ INFO ] [CarResource:51] Getting cars list
+[2021-04-16 10:14:13] [ INFO ] [CarResource:121] Deleting car by id: 3
+[2021-04-16 10:14:13] [ INFO ] [CarResource:128] Car deleted
+[2021-04-16 10:14:13] [ INFO ] [CarResource:64] Getting car by id: 3
+[2021-04-16 10:14:13] [ ERROR] [CarResource:67] Car not found
+[2021-04-16 10:14:13] [ INFO ] [CarResource:100] Updating car by id: 3
+[2021-04-16 10:14:13] [ ERROR] [CarResource:104] Car not found
+[2021-04-16 10:14:13] [ INFO ] [CarResource:84] Creating new car
+[2021-04-16 10:14:13] [ INFO ] [CarResource:64] Getting car by id: 3
+[2021-04-16 10:14:13] [ INFO ] [CarResource:71] Car found

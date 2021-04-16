@@ -17,6 +17,8 @@ import javax.transaction.Transactional;
 import org.apache.log4j.Logger;
 
 import com.everis.entity.Car;
+import com.everis.entity.CarDto;
+import com.everis.utils.CarMapper;
 import com.everis.utils.LoggerInterceptor;
 
 @Stateless
@@ -28,13 +30,16 @@ public class CarService {
 	@EJB
 	private PersistenceService<Car, String> persistenceService;
 	
+	private CarMapper carMapper = new CarMapper();
+	
 	/**
 	 * Get a list of cars
 	 * @return a car list
 	 */
-	public List<Car> getCars(){
+	public List<CarDto> getCars(){
 		LOG.info("Getting cars list");
-		return persistenceService.getAll("Car.GetAllCars", Car.class);
+		List<Car> carList = persistenceService.getAll("Car.GetAllCars", Car.class);
+		return carMapper.carListToCarListDto(carList);
 	}
 	
 	/**
@@ -42,9 +47,10 @@ public class CarService {
 	 * @param id the variable to identify the car
 	 * @return a car
 	 */
-	public Car getCar(String id) {
+	public CarDto getCar(String id) {
 		LOG.info("Getting car by id: " + id);
-		return persistenceService.getById(Car.class, id);
+		Car car = persistenceService.getById(Car.class, id);
+		return carMapper.carToCarDto(car);
 	}
 	
 	/**
@@ -53,9 +59,10 @@ public class CarService {
 	 * @return a car
 	 */
 	@Transactional
-	public Car createCar(Car car) {
+	public CarDto createCar(CarDto car) {
 		LOG.info("Creating new car");
-		return persistenceService.createOne(car);
+		Car newCar = persistenceService.createOne(carMapper.carDtoToCar(car));
+		return carMapper.carToCarDto(newCar);
 	}
 
 	/**
@@ -64,13 +71,15 @@ public class CarService {
 	 * @return a car or a null value
 	 */
 	@Transactional
-	public Car updateCar(Car car) {
+	public CarDto updateCar(CarDto car) {
 		LOG.info("Updating car:");
-		if(getCar(car.getId())==null) {
+		Car carToUpdate = persistenceService.getById(Car.class, car.getId());
+		if(carToUpdate==null) {
 			return null;
 		}
 		else {
-			return persistenceService.updateOne(car);
+			carToUpdate = persistenceService.updateOne(carMapper.carDtoToCar(car));
+			return carMapper.carToCarDto(carToUpdate);
 		}
 	}
 
@@ -80,14 +89,15 @@ public class CarService {
 	 * @return a car or a null value
 	 */
 	@Transactional
-	public Car deleteCar(String id) {
+	public CarDto deleteCar(String id) {
 		LOG.info("Deleting car by id: " + id);
-		Car car = getCar(id);
-		if(car == null) {
+		Car carToDelete = persistenceService.getById(Car.class, id);
+		if(carToDelete == null) {
 			return null;
 		}
 		else {
-			return persistenceService.deleteOne(car);
+			carToDelete = persistenceService.deleteOne(carToDelete);
+			return carMapper.carToCarDto(carToDelete);
 		}
 	}
 }

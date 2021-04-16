@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 
 import com.everis.control.CarService;
 import com.everis.entity.Car;
+import com.everis.entity.CarDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarServiceTests {
@@ -27,11 +28,11 @@ public class CarServiceTests {
 	@Mock
 	private CarService carService;
 	
-	private Car car;
+	private CarDto car;
 	
 	@Before
 	public void setUp() throws Exception{
-		car = new Car();
+		car = new CarDto();
 		car.setId("3");
 		car.setBrand("TestCar");
 		car.setCountry("Spain");
@@ -42,25 +43,25 @@ public class CarServiceTests {
 	
 	@Test
 	public void testGetCars() {
-		List<Car> carListExpected = new ArrayList<Car>();
+		List<CarDto> carListExpected = new ArrayList<CarDto>();
 		doReturn(carListExpected).when(carService).getCars();
-		List<Car> carListToCompare = carService.getCars();
+		List<CarDto> carListToCompare = carService.getCars();
 		assertEquals(carListToCompare, carListExpected);
 	}
 	
 	@Test
 	public void testGetCar() {
 		doReturn(car).when(carService).getCar("3");
-		Car carExpected = car;
-		Car carToCompare = carService.getCar("3");
+		CarDto carExpected = car;
+		CarDto carToCompare = carService.getCar("3");
 		assertEquals(carToCompare, carExpected);
 	}
 	
 	@Test
 	public void testCreateCar() {
 		doReturn(car).when(carService).createCar(car);
-		Car carExpected = car;
-		Car carToCompare = carService.createCar(car);
+		CarDto carExpected = car;
+		CarDto carToCompare = carService.createCar(car);
 		assertEquals(carToCompare, carExpected);
 	}
 	
@@ -68,18 +69,18 @@ public class CarServiceTests {
 	public void testUpdateCar() {
 		doReturn(car).when(carService).getCar("3");
 		car.setBrand("TestCarUpdated");
-		Car carUpdate = carService.getCar("3");
+		CarDto carUpdate = carService.getCar("3");
 		doReturn(carUpdate).when(carService).updateCar(car);
-		Car carExpected = carUpdate;
-		Car carToCompare = carService.updateCar(car);
+		CarDto carExpected = carUpdate;
+		CarDto carToCompare = carService.updateCar(car);
 		assertEquals(carToCompare, carExpected);
 	}
 	
 	@Test
 	public void testDeleteCar() {
 		doReturn(car).when(carService).deleteCar("3");
-		Car carExpected = car;
-		Car carToCompare = carService.deleteCar("3");
+		CarDto carExpected = car;
+		CarDto carToCompare = carService.deleteCar("3");
 		assertEquals(carToCompare, carExpected);
 	}
 }

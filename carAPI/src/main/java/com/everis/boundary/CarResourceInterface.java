@@ -4,6 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.everis.entity.Car;
+import com.everis.entity.CarDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,7 +28,7 @@ public interface CarResourceInterface {
 	@ApiResponse(responseCode = "200", description = "Return the car that you created")
 	@Parameter(description = "Car", required = true)
 	@Parameter(description = "UriInfo", required = true)
-	public Response createCar(Car car, UriInfo uriInfo);
+	public Response createCar(CarDto car, UriInfo uriInfo);
 
 	@Operation(description = "Update a car", responses = {
 			@ApiResponse(responseCode = "404", description = "Car not found"),
@@ -35,7 +36,7 @@ public interface CarResourceInterface {
 	})
 	@Parameter(description = "Car id", required = true)
 	@Parameter(description = "Car", required = true)
-	public Response updateCar(String id, Car car);
+	public Response updateCar(String id, CarDto car);
 
 	@Operation(description = "Delete a car", responses = {
 			@ApiResponse(responseCode = "404", description = "Car not found"),
