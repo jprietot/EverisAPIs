@@ -27,6 +27,8 @@ import org.apache.log4j.Logger;
 
 import com.everis.control.CarService;
 import com.everis.entity.Car;
+import com.everis.entity.CarDto;
+import com.everis.utils.CarMapper;
 import com.everis.utils.LoggerInterceptor;
 
 
@@ -41,6 +43,8 @@ public class CarResource implements CarResourceInterface{
 	@EJB
 	private CarService carService;
 	
+	private CarMapper carMapper = new CarMapper();
+	
 	/**
 	 * Find all cars
 	 * @return a status code response
@@ -48,7 +52,7 @@ public class CarResource implements CarResourceInterface{
 	@GET
 	public Response getCars(){
 		LOG.info("Getting cars list");
-		List<Car> carList = carService.getCars();
+		List<CarDto> carList = carMapper.carListToCarListDto(carService.getCars());
 		return Response.status(Status.OK).entity(carList).build();
 	}
 	
@@ -61,7 +65,7 @@ public class CarResource implements CarResourceInterface{
 	@Path("/{carId}")
 	public Response getCar(@PathParam("carId") String id) {
 		LOG.info("Getting car by id: " + id);
-		Car car = carService.getCar(id);
+		CarDto car = carMapper.carToCarDto(carService.getCar(id));
 		if(car==null) {
 			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();
@@ -79,9 +83,9 @@ public class CarResource implements CarResourceInterface{
 	 * @return a status code response
 	 */
 	@POST
-	public Response createCar(Car car, @Context UriInfo uriInfo) {
+	public Response createCar(CarDto car, @Context UriInfo uriInfo) {
 		LOG.info("Creating new car");
-		Car newCar = carService.createCar(car);
+		CarDto newCar = carMapper.carToCarDto(carService.createCar(car));
 		String newId = String.valueOf(newCar.getId());
 		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
 		return Response.created(uri).entity(newCar).build();
@@ -95,10 +99,10 @@ public class CarResource implements CarResourceInterface{
 	 */
 	@PUT
 	@Path("/{carId}")
-	public Response updateCar(@PathParam("carId") String id, Car car) {
+	public Response updateCar(@PathParam("carId") String id, CarDto car) {
 		LOG.info("Updating car by id: " + id);
 		car.setId(id);
-		Car updCar = carService.updateCar(car);
+		CarDto updCar = carMapper.carToCarDto(carService.updateCar(car));
 		if(updCar==null) {
 			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();
@@ -118,7 +122,7 @@ public class CarResource implements CarResourceInterface{
 	@Path("/{carId}")
 	public Response deleteCar(@PathParam("carId") String id) {
 		LOG.info("Deleting car by id: " + id);
-		Car deletedCar = carService.deleteCar(id);
+		CarDto deletedCar = carMapper.carToCarDto(carService.deleteCar(id));
 		if(deletedCar==null) {
 			LOG.error("Car not found");
 			return Response.status(Status.NOT_FOUND).build();

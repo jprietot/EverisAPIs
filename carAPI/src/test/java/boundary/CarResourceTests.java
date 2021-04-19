@@ -26,6 +26,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.everis.boundary.CarResource;
 import com.everis.control.CarService;
 import com.everis.entity.Car;
+import com.everis.entity.CarDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarResourceTests {
@@ -42,11 +43,11 @@ public class CarResourceTests {
 	@Mock
 	private UriBuilder uriBuilder;
 	
-	private Car car;
+	private CarDto car;
 	
 	@Before
 	public void setUp() throws Exception{
-		car = new Car();
+		car = new CarDto();
 		car.setId("3");
 		car.setBrand("TestCar");
 		car.setCountry("Spain");
@@ -65,7 +66,8 @@ public class CarResourceTests {
 	
 	@Test
 	public void testGetCar() {
-		when(carService.getCar("3")).thenReturn(car);
+		Car carTest = createCarTest();
+		when(carService.getCar("3")).thenReturn(carTest);
 		Response response = carResource.getCar(car.getId());
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 	}
@@ -79,7 +81,8 @@ public class CarResourceTests {
 	
 	@Test
 	public void testCreateCar() throws IllegalArgumentException, UriBuilderException, URISyntaxException {
-		when(carService.createCar(car)).thenReturn(car);
+		Car carTest = createCarTest();
+		when(carService.createCar(car)).thenReturn(carTest);
 		when(uriInfo.getAbsolutePathBuilder()).thenReturn(uriBuilder);
 		when(uriBuilder.path("3")).thenReturn(uriBuilder);
 		when(uriBuilder.build()).thenReturn(new URI("testUri"));
@@ -89,8 +92,8 @@ public class CarResourceTests {
 	
 	@Test
 	public void testUpdateCar() {
-		car.setBrand("TestCarUpdated");
-		when(carService.updateCar(car)).thenReturn(car);
+		Car carTest = createCarTest();
+		when(carService.updateCar(car)).thenReturn(carTest);
 		Response response = carResource.updateCar(car.getId(), car);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 	}
@@ -105,7 +108,8 @@ public class CarResourceTests {
 	
 	@Test
 	public void testDeleteCar() {
-		when(carService.deleteCar("3")).thenReturn(car);
+		Car carTest = createCarTest();
+		when(carService.deleteCar("3")).thenReturn(carTest);
 		Response response = carResource.deleteCar(car.getId());
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 	}
@@ -115,5 +119,11 @@ public class CarResourceTests {
 		when(carService.deleteCar("3")).thenReturn(null);
 		Response response = carResource.deleteCar(car.getId());
 		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+	}
+	
+	private Car createCarTest() {
+		Car car = new Car();
+		car.setId("3");
+		return car;
 	}
 }

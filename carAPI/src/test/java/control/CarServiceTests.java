@@ -15,17 +15,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import com.everis.control.CarService;
+import com.everis.control.PersistenceService;
 import com.everis.entity.Car;
+import com.everis.entity.CarDto;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarServiceTests {
 
-	@Mock
+	@InjectMocks
 	private CarService carService;
+	
+	@Mock
+	private PersistenceService<Car, String> persistenceService;
 	
 	private Car car;
 	
@@ -43,43 +49,47 @@ public class CarServiceTests {
 	@Test
 	public void testGetCars() {
 		List<Car> carListExpected = new ArrayList<Car>();
-		doReturn(carListExpected).when(carService).getCars();
-		List<Car> carListToCompare = carService.getCars();
-		assertEquals(carListToCompare, carListExpected);
+		when(persistenceService.getAll("Car.GetAllCars", Car.class)).thenReturn(carListExpected);
+		List<Car> carListResult = carService.getCars();
+		assertEquals(carListExpected, carListResult);
 	}
 	
 	@Test
 	public void testGetCar() {
-		doReturn(car).when(carService).getCar("3");
-		Car carExpected = car;
-		Car carToCompare = carService.getCar("3");
-		assertEquals(carToCompare, carExpected);
+		when(persistenceService.getById(Car.class, "3")).thenReturn(car);
+		Car carResult = carService.getCar("3");
+		assertEquals("3", carResult.getId());
 	}
 	
 	@Test
 	public void testCreateCar() {
-		doReturn(car).when(carService).createCar(car);
-		Car carExpected = car;
-		Car carToCompare = carService.createCar(car);
-		assertEquals(carToCompare, carExpected);
+		CarDto carDto = createDto();
+		when(persistenceService.createOne(Mockito.any())).thenReturn(car);
+		Car carResult = carService.createCar(carDto);
+		assertEquals("3", carResult.getId());
 	}
 	
 	@Test
 	public void testUpdateCar() {
-		doReturn(car).when(carService).getCar("3");
-		car.setBrand("TestCarUpdated");
-		Car carUpdate = carService.getCar("3");
-		doReturn(carUpdate).when(carService).updateCar(car);
-		Car carExpected = carUpdate;
-		Car carToCompare = carService.updateCar(car);
-		assertEquals(carToCompare, carExpected);
+		CarDto carDto = createDto();
+		when(persistenceService.getById(Car.class, "3")).thenReturn(car);
+		when(persistenceService.updateOne(Mockito.any())).thenReturn(car);
+		Car carResult = carService.updateCar(carDto);
+		assertEquals("3", carResult.getId());
 	}
 	
 	@Test
 	public void testDeleteCar() {
-		doReturn(car).when(carService).deleteCar("3");
-		Car carExpected = car;
-		Car carToCompare = carService.deleteCar("3");
-		assertEquals(carToCompare, carExpected);
+		CarDto carDto = createDto();
+		when(persistenceService.getById(Car.class, "3")).thenReturn(car);
+		when(persistenceService.deleteOne(Mockito.any())).thenReturn(car);
+		Car carResult = carService.deleteCar(carDto.getId());
+		assertEquals("3", carResult.getId());
+	}
+	
+	private CarDto createDto() {
+		CarDto carDto = new CarDto();
+		carDto.setId("3");
+		return carDto;
 	}
 }
