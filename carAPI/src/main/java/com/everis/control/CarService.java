@@ -34,11 +34,16 @@ public class CarService {
 	
 	/**
 	 * Get a list of cars
+	 * @param filterBy the varible to do the filter
+	 * @param pages the varible to do the pagination
+	 * @param orderBy the varible to order the list
+	 * @param size the varible to set the size of the list
+	 * @param sort the variable to sort asc o desc the list
 	 * @return a car list
 	 */
-	public List<Car> getCars(){
+	public List<Car> getCars(String filterBy, int pages, String orderBy, int size, String sort){
 		LOG.info("Getting cars list");
-		List<Car> carList = persistenceService.getAll("Car.GetAllCars", Car.class);
+		List<Car> carList = persistenceService.getAll("Car.GetAllCars", Car.class, filterBy, pages, orderBy, size, sort);
 		return carList;
 	}
 	

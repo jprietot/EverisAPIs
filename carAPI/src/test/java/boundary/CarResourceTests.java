@@ -59,8 +59,8 @@ public class CarResourceTests {
 	@Test
 	public void testGetCars() {
 		List<Car> carList = new ArrayList<Car>();
-		when(this.carService.getCars()).thenReturn(carList);
-		Response response = this.carResource.getCars();
+		when(this.carService.getCars(null, 0, null, 0, null)).thenReturn(carList);
+		Response response = this.carResource.getCars(null, 0, null, 0, null);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 	}
 	

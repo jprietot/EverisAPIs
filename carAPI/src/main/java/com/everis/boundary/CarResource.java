@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.PathParam;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -47,12 +48,21 @@ public class CarResource implements CarResourceInterface{
 	
 	/**
 	 * Find all cars
+	 * @param filterBy the varible to do the filter
+	 * @param pages the varible to do the pagination
+	 * @param orderBy the varible to order the list
+	 * @param size the varible to set the size of the list
+	 * @param sort the variable to sort asc o desc the list
 	 * @return a status code response
 	 */
 	@GET
-	public Response getCars(){
+	public Response getCars(@QueryParam("filter") String filterBy, 
+							@QueryParam("page") int pages, 
+							@QueryParam("order") String orderBy, 
+							@QueryParam("size") int size, 
+							@QueryParam("sort") String sort){
 		LOG.info("Getting cars list");
-		List<CarDto> carList = carMapper.carListToCarListDto(carService.getCars());
+		List<CarDto> carList = carMapper.carListToCarListDto(carService.getCars(filterBy, pages, orderBy, size, sort));
 		return Response.status(Status.OK).entity(carList).build();
 	}
 	
