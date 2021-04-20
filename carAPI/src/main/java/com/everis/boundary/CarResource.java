@@ -10,10 +10,12 @@ import javax.ws.rs.PathParam;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -57,10 +59,10 @@ public class CarResource implements CarResourceInterface{
 	 */
 	@GET
 	public Response getCars(@QueryParam("filter") String filterBy, 
-							@QueryParam("page") int pages, 
-							@QueryParam("order") String orderBy, 
-							@QueryParam("size") int size, 
-							@QueryParam("sort") String sort){
+							@DefaultValue("0") @QueryParam("page") int pages, 
+							@DefaultValue("id") @QueryParam("order") String orderBy, 
+							@DefaultValue("10") @QueryParam("size") int size, 
+							@DefaultValue("asc") @QueryParam("sort") String sort){
 		LOG.info("Getting cars list");
 		List<CarDto> carList = carMapper.carListToCarListDto(carService.getCars(filterBy, pages, orderBy, size, sort));
 		return Response.status(Status.OK).entity(carList).build();

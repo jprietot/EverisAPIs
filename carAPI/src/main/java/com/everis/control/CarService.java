@@ -43,7 +43,7 @@ public class CarService {
 	 */
 	public List<Car> getCars(String filterBy, int pages, String orderBy, int size, String sort){
 		LOG.info("Getting cars list");
-		List<Car> carList = persistenceService.getAll("Car.GetAllCars", Car.class, filterBy, pages, orderBy, size, sort);
+		List<Car> carList = persistenceService.getAll(Car.class, filterBy, pages, orderBy, size, sort);
 		return carList;
 	}
 	

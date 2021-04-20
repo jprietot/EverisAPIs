@@ -49,7 +49,7 @@ public class CarServiceTests {
 	@Test
 	public void testGetCars() {
 		List<Car> carListExpected = new ArrayList<Car>();
-		when(persistenceService.getAll("Car.GetAllCars", Car.class, null, 0, null, 0, null)).thenReturn(carListExpected);
+		when(persistenceService.getAll(Car.class, null, 0, null, 0, null)).thenReturn(carListExpected);
 		List<Car> carListResult = carService.getCars(null, 0, null, 0, null);
 		assertEquals(carListExpected, carListResult);
 	}
