@@ -15,7 +15,7 @@ public interface CarResourceInterface {
 	
 	@Operation(description = "Get all cars")
 	@ApiResponse(responseCode = "200", description = "Returns a list of cars")
-	public Response getCars();
+	public Response getCars(String filterBy, int pages, String orderBy, int size, String sort);
 	
 	@Operation(description = "Get a car", responses = {
 			@ApiResponse(responseCode = "404", description = "Car not found"),
