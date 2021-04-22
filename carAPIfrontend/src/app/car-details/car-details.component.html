@@ -1,0 +1,22 @@
+<table *ngIf="car | async as car">
+    <thead>
+        <th>ID</th>
+        <th>BRAND</th>
+        <th>COUNTRY</th>
+        <th>CREATED AT</th>
+        <th>LAST UPDATED</th>
+        <th>REGISTRATION</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{car.id}}</td>
+            <td>{{car.brand}}</td>
+            <td>{{car.country}}</td>
+            <td>{{car.createdAt}}</td>
+            <td>{{car.lastUpdated}}</td>
+            <td>{{car.registration}}</td>
+            <td (click)="deleteCar()">DELETE</td>
+            <td (click)="updateCar()">UPDATE</td>
+        </tr>
+    </tbody>
+</table>

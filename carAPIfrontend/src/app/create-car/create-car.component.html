@@ -1,0 +1,27 @@
+<form>
+    <div>
+        <label>BRAND: </label>
+        <input type="text" name="brand" [(ngModel)]="brand"/>
+    </div>
+    <div>
+        <label>COUNTRY: </label>
+        <input type="text" name="country" [(ngModel)]="country"/>
+    </div>
+    <div>
+        <label>REGISTRATION: </label>
+        <input type="text" name="registration" [(ngModel)]="registration"/>
+    </div>
+    <div>
+        <label>CREATED AT: </label>
+        <input type="text" name="createdAt" [(ngModel)]="createdAt"/>
+    </div>
+    <div>
+        <label>LAST UPDATED: </label>
+        <input type="text" name="lastUpdated" [(ngModel)]="lastUpdated"/>
+    </div>
+    <div>
+        <input type="button" value="Create car" (click)="createCar()"/>
+    </div>
+</form>
+
+

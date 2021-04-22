@@ -1,20 +1,10 @@
 <table *ngIf="cars | async as cars">
     <thead>
-        <th>ID</th>
         <th>BRAND</th>
-        <th>COUNTRY</th>
-        <th>CREATED AT</th>
-        <th>LAST UPDATED</th>
-        <th>REGISTRATION</th>
     </thead>
     <tbody>
         <tr *ngFor="let car of cars">
-            <td>{{car.id}}</td>
-            <td>{{car.brand}}</td>
-            <td>{{car.country}}</td>
-            <td>{{car.createdAt}}</td>
-            <td>{{car.lastUpdated}}</td>
-            <td>{{car.registration}}</td>
+            <td [id]="car.id" (click)="getCar($event)">{{car.brand}}</td>
         </tr>
     </tbody>
 </table>
