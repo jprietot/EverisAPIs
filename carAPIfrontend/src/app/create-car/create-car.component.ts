@@ -10,11 +10,11 @@ import { CarService } from '../services/car.service';
 })
 export class CreateCarComponent implements OnInit {
 
-  brand!: string;
-  country!: string;
-  registration!: Date;
-  lastUpdated!: Date;
-  createdAt!: Date;
+  private brand!: string;
+  private country!: string;
+  private registration!: Date;
+  private lastUpdated!: Date;
+  private createdAt!: Date;
 
   constructor(private service: CarService, private router: Router) { }
 

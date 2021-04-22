@@ -10,13 +10,13 @@ import { CarService } from '../services/car.service';
 })
 export class UpdateCarComponent implements OnInit {
 
-  carId: string = this.aroute.snapshot.paramMap.get('id') || "";
+  private carId: string = this.aroute.snapshot.paramMap.get('id') || "";
 
-  brand!: string;
-  country!: string;
-  registration!: Date;
-  lastUpdated!: Date;
-  createdAt!: Date;
+  private brand!: string;
+  private country!: string;
+  private registration!: Date;
+  private lastUpdated!: Date;
+  private createdAt!: Date;
 
   constructor(private service: CarService, private aroute: ActivatedRoute, private router: Router) { }
 

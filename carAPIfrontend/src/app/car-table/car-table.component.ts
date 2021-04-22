@@ -11,7 +11,7 @@ import { CarService } from '../services/car.service';
 })
 export class CarTableComponent implements OnInit {
 
-  cars: Observable<Car[]> = this.service.getCars();
+  private cars: Observable<Car[]> = this.service.getCars();
 
   constructor(private service: CarService, private router: Router) { }
 

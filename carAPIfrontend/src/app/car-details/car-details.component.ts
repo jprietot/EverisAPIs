@@ -11,8 +11,8 @@ import { CarService } from '../services/car.service';
 })
 export class CarDetailsComponent implements OnInit {
 
-  carId: string = this.aroute.snapshot.paramMap.get('id') || "";
-  car: Observable<Car> = this.service.getCar(this.carId);
+  private carId: string = this.aroute.snapshot.paramMap.get('id') || "";
+  private car: Observable<Car> = this.service.getCar(this.carId);
 
   constructor(private service: CarService, private aroute: ActivatedRoute, private router: Router) { }
 
