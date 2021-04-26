@@ -1,15 +1,17 @@
-<table *ngIf="car | async as car">
-    <thead>
-        <th>ID</th>
-        <th>BRAND</th>
-        <th>COUNTRY</th>
-        <th>CREATED AT</th>
-        <th>LAST UPDATED</th>
-        <th>REGISTRATION</th>
+<table class="table" *ngIf="car | async as car">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">BRAND</th>
+            <th scope="col">COUNTRY</th>
+            <th scope="col">CREATED AT</th>
+            <th scope="col">LAST UPDATED</th>
+            <th scope="col">REGISTRATION</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
-            <td>{{car.id}}</td>
+            <th scope="row">{{car.id}}</th>
             <td>{{car.brand}}</td>
             <td>{{car.country}}</td>
             <td>{{car.createdAt}}</td>

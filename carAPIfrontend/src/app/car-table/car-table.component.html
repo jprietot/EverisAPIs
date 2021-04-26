@@ -1,10 +1,15 @@
-<table *ngIf="cars | async as cars">
+<h1>LIST OF CARS</h1>
+<table class="table table-hover w-50" *ngIf="cars | async as cars">
     <thead>
-        <th>BRAND</th>
+      <tr>
+        <th scope="col">BRAND</th>
+        <th scope="col">COUNTRY</th>
+      </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let car of cars">
-            <td [id]="car.id" (click)="getCar($event)">{{car.brand}}</td>
-        </tr>
+      <tr *ngFor="let car of cars">
+        <th scope="row" [id]="car.id" (click)="getCar($event)">{{car.brand}}</th>
+        <td>{{car.country}}</td>
+      </tr>
     </tbody>
 </table>
