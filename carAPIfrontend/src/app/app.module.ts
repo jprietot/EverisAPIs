@@ -10,6 +10,8 @@ import { CarDetailsComponent } from './car-details/car-details.component';
 import { MenuComponent } from './menu/menu.component';
 import { CreateCarComponent } from './create-car/create-car.component';
 import { UpdateCarComponent } from './update-car/update-car.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { UpdateCarComponent } from './update-car/update-car.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
