@@ -1,25 +1,24 @@
 <form>
-    <div>
-        <label>BRAND: </label>
-        <input type="text" name="brand" [(ngModel)]="brand"/>
+    <h2>UPDATE CAR</h2>
+    <div class="form-group w-50">
+        <label>BRAND:</label>
+        <input type="text" class="form-control" name="brand" [(ngModel)]="brand">
     </div>
-    <div>
-        <label>COUNTRY: </label>
-        <input type="text" name="country" [(ngModel)]="country"/>
+    <div class="form-group w-50">
+        <label>COUNTRY:</label>
+        <input type="text" class="form-control" name="country" [(ngModel)]="country">
     </div>
-    <div>
-        <label>REGISTRATION: </label>
-        <input type="text" name="registration" [(ngModel)]="registration"/>
+    <div class="form-group w-50">
+        <label>REGISTRATION:</label>
+        <input type="text" class="form-control" name="registration" [(ngModel)]="registration">
     </div>
-    <div>
-        <label>CREATED AT: </label>
-        <input type="text" name="createdAt" [(ngModel)]="createdAt"/>
+    <div class="form-group w-50">
+        <label>CREATED AT:</label>
+        <input type="text" class="form-control" name="createdAt" [(ngModel)]="createdAt">
     </div>
-    <div>
-        <label>LAST UPDATED: </label>
-        <input type="text" name="lastUpdated" [(ngModel)]="lastUpdated"/>
+    <div class="form-group w-50">
+        <label>LAST UPDATED:</label>
+        <input type="text" class="form-control" name="lastUpdated" [(ngModel)]="lastUpdated">
     </div>
-    <div>
-        <input type="button" value="Update car" (click)="updateCar()"/>
-    </div>
+    <button type="submit" class="btn btn-primary" (click)="updateCar()">UPDATE CAR</button>
 </form>
