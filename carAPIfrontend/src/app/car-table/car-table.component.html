@@ -1,15 +1,19 @@
+<div class="table table-hover w-50">
 <h1>LIST OF CARS</h1>
-<table class="table table-hover w-50" *ngIf="cars | async as cars">
-    <thead>
-      <tr>
-        <th scope="col">BRAND</th>
-        <th scope="col">COUNTRY</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let car of cars">
-        <th scope="row" [id]="car.id" (click)="getCar($event)">{{car.brand}}</th>
-        <td>{{car.country}}</td>
-      </tr>
-    </tbody>
-</table>
+<mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="brand">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>BRAND</mat-header-cell>
+        <mat-cell *matCellDef="let row" [id]="row.id" (click)=getCar($event)> {{row.brand}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="country">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>COUNTRY</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.country}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+<mat-form-field class="bg-secondary w-100">
+    <input matInput (keyup)="filter($event)" placeholder="Filter">
+</mat-form-field>
+</div>
