@@ -1,11 +1,14 @@
 package com.everis.entity;
 
 import java.time.LocalDateTime;
+
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -19,14 +22,14 @@ public class Car {
 	@GenericGenerator(name="uuid2", strategy="org.hibernate.id.UUIDGenerator")
 	private String id;
 	
-	@Column(nullable = false)
-	private String brand;
+	@ManyToOne
+	private Brand brand;
 	
 	@Column(nullable = false)
 	private LocalDateTime registration;
 	
-	@Column(nullable = false)
-	private String country;
+	@ManyToOne
+	private Country country;
 	
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
@@ -38,7 +41,7 @@ public class Car {
 	public Car() {}
 	
 	//Constructor parametrizado
-	public Car(String id, String brand, LocalDateTime registration, String country, LocalDateTime createdAt,
+	public Car(String id, Brand brand, LocalDateTime registration, Country country, LocalDateTime createdAt,
 			LocalDateTime lastUpdated) {
 		super();
 		this.id = id;
@@ -49,7 +52,7 @@ public class Car {
 		this.lastUpdated = lastUpdated;
 	}
 	
-	public Car(String brand, LocalDateTime registration, String country, LocalDateTime createdAt,
+	public Car(Brand brand, LocalDateTime registration, Country country, LocalDateTime createdAt,
 			LocalDateTime lastUpdated) {
 		super();
 		this.brand = brand;
@@ -68,11 +71,11 @@ public class Car {
 		this.id = id;
 	}
 
-	public String getBrand() {
+	public Brand getBrand() {
 		return brand;
 	}
 
-	public void setBrand(String brand) {
+	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
 
@@ -84,11 +87,11 @@ public class Car {
 		this.registration = registration;
 	}
 
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 

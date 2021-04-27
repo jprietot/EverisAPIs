@@ -21,8 +21,10 @@ import org.mockito.Mockito;
 
 import com.everis.control.CarService;
 import com.everis.control.PersistenceService;
+import com.everis.entity.Brand;
 import com.everis.entity.Car;
 import com.everis.entity.CarDto;
+import com.everis.entity.Country;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarServiceTests {
@@ -39,8 +41,8 @@ public class CarServiceTests {
 	public void setUp() throws Exception{
 		car = new Car();
 		car.setId("3");
-		car.setBrand("TestCar");
-		car.setCountry("Spain");
+		car.setBrand(new Brand("1", "BMW"));
+		car.setCountry(new Country("1", "Spain"));
 		car.setRegistration(LocalDateTime.now());
 		car.setCreatedAt(LocalDateTime.now());
 		car.setLastUpdated(LocalDateTime.now());

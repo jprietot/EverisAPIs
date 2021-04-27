@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 public class CarDto {
 
 	private String id;
-	private String brand;
+	private Brand brand;
 	private LocalDateTime registration;
-	private String country;
+	private Country country;
 	private LocalDateTime createdAt;
 	private LocalDateTime lastUpdated;
 	
@@ -19,11 +19,11 @@ public class CarDto {
 		this.id = id;
 	}
 
-	public String getBrand() {
+	public Brand getBrand() {
 		return brand;
 	}
 
-	public void setBrand(String brand) {
+	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
 
@@ -35,11 +35,11 @@ public class CarDto {
 		this.registration = registration;
 	}
 
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 
