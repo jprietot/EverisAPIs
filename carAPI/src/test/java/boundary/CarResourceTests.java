@@ -25,8 +25,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.everis.boundary.CarResource;
 import com.everis.control.CarService;
+import com.everis.entity.Brand;
 import com.everis.entity.Car;
 import com.everis.entity.CarDto;
+import com.everis.entity.Country;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarResourceTests {
@@ -49,8 +51,8 @@ public class CarResourceTests {
 	public void setUp() throws Exception{
 		car = new CarDto();
 		car.setId("3");
-		car.setBrand("TestCar");
-		car.setCountry("Spain");
+		car.setBrand(new Brand("1", "BMW"));
+		car.setCountry(new Country("1", "Spain"));
 		car.setRegistration(LocalDateTime.now());
 		car.setCreatedAt(LocalDateTime.now());
 		car.setLastUpdated(LocalDateTime.now());
@@ -100,7 +102,7 @@ public class CarResourceTests {
 	
 	@Test
 	public void testUpdateCarFail() {
-		car.setBrand("TestCarUpdated");
+		car.setBrand(new Brand("1", "BMW"));
 		when(carService.updateCar(car)).thenReturn(null);
 		Response response = carResource.updateCar(car.getId(), car);
 		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
