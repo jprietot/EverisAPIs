@@ -4,12 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doReturn;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  carsUrl: "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars",
+  brandsUrl: "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/brands",
+  countriesUrl: "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/countries"
 };
 
 /*

@@ -2,10 +2,8 @@ package com.everis.entity;
 
 import java.time.LocalDateTime;
 
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -43,7 +41,6 @@ public class Car {
 	//Constructor parametrizado
 	public Car(String id, Brand brand, LocalDateTime registration, Country country, LocalDateTime createdAt,
 			LocalDateTime lastUpdated) {
-		super();
 		this.id = id;
 		this.brand = brand;
 		this.registration = registration;
@@ -54,7 +51,6 @@ public class Car {
 	
 	public Car(Brand brand, LocalDateTime registration, Country country, LocalDateTime createdAt,
 			LocalDateTime lastUpdated) {
-		super();
 		this.brand = brand;
 		this.registration = registration;
 		this.country = country;

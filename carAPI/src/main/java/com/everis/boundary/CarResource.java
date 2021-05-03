@@ -8,10 +8,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.PathParam;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -29,7 +25,6 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.Logger;
 
 import com.everis.control.CarService;
-import com.everis.entity.Car;
 import com.everis.entity.CarDto;
 import com.everis.utils.CarMapper;
 import com.everis.utils.LoggerInterceptor;

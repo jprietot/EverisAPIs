@@ -32,7 +32,6 @@ public class Country {
 	public Country() {}
 	
 	public Country(String id, String name) {
-		super();
 		this.id = id;
 		this.name = name;
 	}

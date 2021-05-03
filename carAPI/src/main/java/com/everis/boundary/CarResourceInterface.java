@@ -3,7 +3,6 @@ package com.everis.boundary;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.everis.entity.Car;
 import com.everis.entity.CarDto;
 
 import io.swagger.v3.oas.annotations.Operation;
