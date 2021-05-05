@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.PathParam;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -20,17 +21,20 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.log4j.Logger;
 
 import com.everis.control.CarService;
 import com.everis.entity.CarDto;
+import com.everis.filter.Secured;
 import com.everis.utils.CarMapper;
 import com.everis.utils.LoggerInterceptor;
 
 
 @Path("/cars")
+@Secured
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Interceptors(LoggerInterceptor.class)
@@ -41,7 +45,11 @@ public class CarResource implements CarResourceInterface{
 	@EJB
 	private CarService carService;
 	
-	private CarMapper carMapper = new CarMapper();
+	@Inject
+	private CarMapper carMapper;
+	
+	@Context
+	SecurityContext securityContext;
 	
 	/**
 	 * Find all cars
@@ -58,9 +66,14 @@ public class CarResource implements CarResourceInterface{
 							@DefaultValue("id") @QueryParam("order") String orderBy, 
 							@DefaultValue("10") @QueryParam("size") int size, 
 							@DefaultValue("asc") @QueryParam("sort") String sort){
-		LOG.info("Getting cars list");
-		List<CarDto> carList = carMapper.carListToCarListDto(carService.getCars(filterBy, pages, orderBy, size, sort));
-		return Response.status(Status.OK).entity(carList).build();
+		if(securityContext.isUserInRole("ADMIN") || securityContext.isUserInRole("USER")) {
+			LOG.info("Getting cars list");
+			List<CarDto> carList = carMapper.carListToCarListDto(carService.getCars(filterBy, pages, orderBy, size, sort));
+			return Response.status(Status.OK).entity(carList).build();
+		}
+		else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}
 	}
 	
 	/**
@@ -71,15 +84,20 @@ public class CarResource implements CarResourceInterface{
 	@GET
 	@Path("/{carId}")
 	public Response getCar(@PathParam("carId") String id) {
-		LOG.info("Getting car by id: " + id);
-		CarDto car = carMapper.carToCarDto(carService.getCar(id));
-		if(car==null) {
-			LOG.error("Car not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN") || securityContext.isUserInRole("USER")) {
+			LOG.info("Getting car by id: " + id);
+			CarDto car = carMapper.carToCarDto(carService.getCar(id));
+			if(car==null) {
+				LOG.error("Car not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Car found");
+				return Response.status(Status.OK).entity(car).build();
+			}
 		}
 		else {
-			LOG.info("Car found");
-			return Response.status(Status.OK).entity(car).build();
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
 	
@@ -91,11 +109,16 @@ public class CarResource implements CarResourceInterface{
 	 */
 	@POST
 	public Response createCar(CarDto car, @Context UriInfo uriInfo) {
-		LOG.info("Creating new car");
-		CarDto newCar = carMapper.carToCarDto(carService.createCar(car));
-		String newId = String.valueOf(newCar.getId());
-		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
-		return Response.created(uri).entity(newCar).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Creating new car");
+			CarDto newCar = carMapper.carToCarDto(carService.createCar(car));
+			String newId = String.valueOf(newCar.getId());
+			URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
+			return Response.created(uri).entity(newCar).build();
+		}
+		else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}
 	}
 
 	/**
@@ -107,16 +130,21 @@ public class CarResource implements CarResourceInterface{
 	@PUT
 	@Path("/{carId}")
 	public Response updateCar(@PathParam("carId") String id, CarDto car) {
-		LOG.info("Updating car by id: " + id);
-		car.setId(id);
-		CarDto updCar = carMapper.carToCarDto(carService.updateCar(car));
-		if(updCar==null) {
-			LOG.error("Car not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Updating car by id: " + id);
+			car.setId(id);
+			CarDto updCar = carMapper.carToCarDto(carService.updateCar(car));
+			if(updCar==null) {
+				LOG.error("Car not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Car updated");
+				return Response.status(Status.OK).entity(updCar).build();
+			}
 		}
 		else {
-			LOG.info("Car updated");
-			return Response.status(Status.OK).entity(updCar).build();
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
 
@@ -128,15 +156,20 @@ public class CarResource implements CarResourceInterface{
 	@DELETE
 	@Path("/{carId}")
 	public Response deleteCar(@PathParam("carId") String id) {
-		LOG.info("Deleting car by id: " + id);
-		CarDto deletedCar = carMapper.carToCarDto(carService.deleteCar(id));
-		if(deletedCar==null) {
-			LOG.error("Car not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Deleting car by id: " + id);
+			CarDto deletedCar = carMapper.carToCarDto(carService.deleteCar(id));
+			if(deletedCar==null) {
+				LOG.error("Car not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Car deleted");
+				return Response.status(Status.OK).entity(deletedCar).build();
+			}
 		}
 		else {
-			LOG.info("Car deleted");
-			return Response.status(Status.OK).entity(deletedCar).build();
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
 	

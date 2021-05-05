@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.PathParam;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,6 +20,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
@@ -26,11 +28,13 @@ import org.apache.log4j.Logger;
 
 import com.everis.control.CountryService;
 import com.everis.entity.CountryDto;
+import com.everis.filter.Secured;
 import com.everis.utils.CountryMapper;
 import com.everis.utils.LoggerInterceptor;
 
 
 @Path("/countries")
+@Secured
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Interceptors(LoggerInterceptor.class)
@@ -41,7 +45,11 @@ public class CountryResource implements CountryResourceInterface{
 	@EJB
 	private CountryService countryService;
 	
-	private CountryMapper countryMapper = new CountryMapper();
+	@Inject
+	private CountryMapper countryMapper;
+	
+	@Context
+	SecurityContext securityContext;
 	
 	/**
 	 * Find all countries
@@ -58,9 +66,14 @@ public class CountryResource implements CountryResourceInterface{
 							@DefaultValue("id") @QueryParam("order") String orderBy, 
 							@DefaultValue("10") @QueryParam("size") int size, 
 							@DefaultValue("asc") @QueryParam("sort") String sort){
-		LOG.info("Getting brands list");
-		List<CountryDto> countryList = countryMapper.countryListToCountryListDto(countryService.getCountries(filterBy, pages, orderBy, size, sort));
-		return Response.status(Status.OK).entity(countryList).build();
+		if(securityContext.isUserInRole("ADMIN") || securityContext.isUserInRole("USER")) {
+			LOG.info("Getting brands list");
+			List<CountryDto> countryList = countryMapper.countryListToCountryListDto(countryService.getCountries(filterBy, pages, orderBy, size, sort));
+			return Response.status(Status.OK).entity(countryList).build();
+		}
+		else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}
 	}
 	
 	/**
@@ -71,15 +84,20 @@ public class CountryResource implements CountryResourceInterface{
 	@GET
 	@Path("/{countryId}")
 	public Response getCountry(@PathParam("countryId") String id) {
-		LOG.info("Getting country by id: " + id);
-		CountryDto country = countryMapper.countryToCountryDto(countryService.getCountry(id));
-		if(country==null) {
-			LOG.error("Country not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN") || securityContext.isUserInRole("USER")) {
+			LOG.info("Getting country by id: " + id);
+			CountryDto country = countryMapper.countryToCountryDto(countryService.getCountry(id));
+			if(country==null) {
+				LOG.error("Country not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Country found");
+				return Response.status(Status.OK).entity(country).build();
+			}
 		}
 		else {
-			LOG.info("Country found");
-			return Response.status(Status.OK).entity(country).build();
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
 	
@@ -91,11 +109,16 @@ public class CountryResource implements CountryResourceInterface{
 	 */
 	@POST
 	public Response createCountry(CountryDto country, @Context UriInfo uriInfo) {
-		LOG.info("Creating new country");
-		CountryDto newCountry = countryMapper.countryToCountryDto(countryService.createCountry(country));
-		String newId = String.valueOf(newCountry.getId());
-		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
-		return Response.created(uri).entity(newCountry).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Creating new country");
+			CountryDto newCountry = countryMapper.countryToCountryDto(countryService.createCountry(country));
+			String newId = String.valueOf(newCountry.getId());
+			URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
+			return Response.created(uri).entity(newCountry).build();
+		}
+		else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}
 	}
 
 	/**
@@ -107,16 +130,21 @@ public class CountryResource implements CountryResourceInterface{
 	@PUT
 	@Path("/{countryId}")
 	public Response updateCountry(@PathParam("countryId") String id, CountryDto country) {
-		LOG.info("Updating country by id: " + id);
-		country.setId(id);
-		CountryDto updCountry = countryMapper.countryToCountryDto(countryService.updateCountry(country));
-		if(updCountry==null) {
-			LOG.error("Country not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Updating country by id: " + id);
+			country.setId(id);
+			CountryDto updCountry = countryMapper.countryToCountryDto(countryService.updateCountry(country));
+			if(updCountry==null) {
+				LOG.error("Country not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Country updated");
+				return Response.status(Status.OK).entity(updCountry).build();
+			}
 		}
 		else {
-			LOG.info("Country updated");
-			return Response.status(Status.OK).entity(updCountry).build();
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
 
@@ -128,15 +156,20 @@ public class CountryResource implements CountryResourceInterface{
 	@DELETE
 	@Path("/{countryId}")
 	public Response deleteCountry(@PathParam("countryId") String id) {
-		LOG.info("Deleting country by id: " + id);
-		CountryDto deletedCountry = countryMapper.countryToCountryDto(countryService.deleteCountry(id));
-		if(deletedCountry==null) {
-			LOG.error("Country not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Deleting country by id: " + id);
+			CountryDto deletedCountry = countryMapper.countryToCountryDto(countryService.deleteCountry(id));
+			if(deletedCountry==null) {
+				LOG.error("Country not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Country deleted");
+				return Response.status(Status.OK).entity(deletedCountry).build();
+			}
 		}
 		else {
-			LOG.info("Country deleted");
-			return Response.status(Status.OK).entity(deletedCountry).build();
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
 	

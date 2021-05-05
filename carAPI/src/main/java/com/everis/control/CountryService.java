@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.transaction.Transactional;
 
@@ -23,7 +24,8 @@ public class CountryService {
 	@EJB
 	private PersistenceService<Country, String> persistenceService;
 	
-	private CountryMapper countryMapper = new CountryMapper();
+	@Inject
+	private CountryMapper countryMapper;
 	
 	/**
 	 * Get a list of countries

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.transaction.Transactional;
 
@@ -23,7 +24,8 @@ public class CarService {
 	@EJB
 	private PersistenceService<Car, String> persistenceService;
 	
-	private CarMapper carMapper = new CarMapper();
+	@Inject
+	private CarMapper carMapper;
 	
 	/**
 	 * Get a list of cars

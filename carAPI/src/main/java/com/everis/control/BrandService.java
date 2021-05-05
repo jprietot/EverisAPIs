@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.transaction.Transactional;
 
@@ -23,7 +24,8 @@ public class BrandService {
 	@EJB
 	private PersistenceService<Brand, String> persistenceService;
 	
-	private BrandMapper brandMapper = new BrandMapper();
+	@Inject
+	private BrandMapper brandMapper;
 	
 	/**
 	 * Get a list of brands

@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   carsUrl: "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/cars",
   brandsUrl: "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/brands",
-  countriesUrl: "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/countries"
+  countriesUrl: "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/countries",
+  loginUrl: "http://desktop-i5ipudi:8080/carAPI-0.0.1-SNAPSHOT/login"
 };
 
 /*

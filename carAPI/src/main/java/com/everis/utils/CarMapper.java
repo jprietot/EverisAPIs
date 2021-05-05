@@ -3,9 +3,12 @@ package com.everis.utils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.Dependent;
+
 import com.everis.entity.Car;
 import com.everis.entity.CarDto;
 
+@Dependent
 public class CarMapper {
 	
 	public CarDto carToCarDto(Car car) {

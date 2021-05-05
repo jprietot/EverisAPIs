@@ -3,9 +3,12 @@ package com.everis.utils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.Dependent;
+
 import com.everis.entity.Brand;
 import com.everis.entity.BrandDto;
 
+@Dependent
 public class BrandMapper {
 	public BrandDto brandToBrandDto(Brand brand) {
 		if(brand==null) {

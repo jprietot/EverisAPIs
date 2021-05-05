@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.PathParam;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,6 +20,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
@@ -26,11 +28,13 @@ import org.apache.log4j.Logger;
 
 import com.everis.control.BrandService;
 import com.everis.entity.BrandDto;
+import com.everis.filter.Secured;
 import com.everis.utils.BrandMapper;
 import com.everis.utils.LoggerInterceptor;
 
 
 @Path("/brands")
+@Secured
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Interceptors(LoggerInterceptor.class)
@@ -41,7 +45,11 @@ public class BrandResource implements BrandResourceInterface{
 	@EJB
 	private BrandService brandService;
 	
-	private BrandMapper brandMapper = new BrandMapper();
+	@Inject
+	private BrandMapper brandMapper;
+	
+	@Context
+	SecurityContext securityContext;
 	
 	/**
 	 * Find all brands
@@ -58,9 +66,14 @@ public class BrandResource implements BrandResourceInterface{
 							@DefaultValue("id") @QueryParam("order") String orderBy, 
 							@DefaultValue("10") @QueryParam("size") int size, 
 							@DefaultValue("asc") @QueryParam("sort") String sort){
-		LOG.info("Getting brands list");
-		List<BrandDto> brandList = brandMapper.brandListToBrandListDto(brandService.getBrands(filterBy, pages, orderBy, size, sort));
-		return Response.status(Status.OK).entity(brandList).build();
+		if(securityContext.isUserInRole("ADMIN") || securityContext.isUserInRole("USER")) {
+			LOG.info("Getting brands list");
+			List<BrandDto> brandList = brandMapper.brandListToBrandListDto(brandService.getBrands(filterBy, pages, orderBy, size, sort));
+			return Response.status(Status.OK).entity(brandList).build();
+		}
+		else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}	
 	}
 	
 	/**
@@ -71,16 +84,21 @@ public class BrandResource implements BrandResourceInterface{
 	@GET
 	@Path("/{brandId}")
 	public Response getBrand(@PathParam("brandId") String id) {
-		LOG.info("Getting brand by id: " + id);
-		BrandDto brand = brandMapper.brandToBrandDto(brandService.getBrand(id));
-		if(brand==null) {
-			LOG.error("Brand not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN") || securityContext.isUserInRole("USER")) {
+			LOG.info("Getting brand by id: " + id);
+			BrandDto brand = brandMapper.brandToBrandDto(brandService.getBrand(id));
+			if(brand==null) {
+				LOG.error("Brand not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Brand found");
+				return Response.status(Status.OK).entity(brand).build();
+			}
 		}
 		else {
-			LOG.info("Brand found");
-			return Response.status(Status.OK).entity(brand).build();
-		}
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}	
 	}
 	
 	/**
@@ -91,11 +109,16 @@ public class BrandResource implements BrandResourceInterface{
 	 */
 	@POST
 	public Response createBrand(BrandDto brand, @Context UriInfo uriInfo) {
-		LOG.info("Creating new brand");
-		BrandDto newBrand = brandMapper.brandToBrandDto(brandService.createBrand(brand));
-		String newId = String.valueOf(newBrand.getId());
-		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
-		return Response.created(uri).entity(newBrand).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Creating new brand");
+			BrandDto newBrand = brandMapper.brandToBrandDto(brandService.createBrand(brand));
+			String newId = String.valueOf(newBrand.getId());
+			URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
+			return Response.created(uri).entity(newBrand).build();
+		}
+		else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}	
 	}
 
 	/**
@@ -107,17 +130,22 @@ public class BrandResource implements BrandResourceInterface{
 	@PUT
 	@Path("/{brandId}")
 	public Response updateBrand(@PathParam("brandId") String id, BrandDto brand) {
-		LOG.info("Updating brand by id: " + id);
-		brand.setId(id);
-		BrandDto updBrand = brandMapper.brandToBrandDto(brandService.updateBrand(brand));
-		if(updBrand==null) {
-			LOG.error("Brand not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Updating brand by id: " + id);
+			brand.setId(id);
+			BrandDto updBrand = brandMapper.brandToBrandDto(brandService.updateBrand(brand));
+			if(updBrand==null) {
+				LOG.error("Brand not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Brand updated");
+				return Response.status(Status.OK).entity(updBrand).build();
+			}
 		}
 		else {
-			LOG.info("Brand updated");
-			return Response.status(Status.OK).entity(updBrand).build();
-		}
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}	
 	}
 
 	/**
@@ -128,16 +156,21 @@ public class BrandResource implements BrandResourceInterface{
 	@DELETE
 	@Path("/{brandId}")
 	public Response deleteBrand(@PathParam("brandId") String id) {
-		LOG.info("Deleting brand by id: " + id);
-		BrandDto deletedBrand = brandMapper.brandToBrandDto(brandService.deleteBrand(id));
-		if(deletedBrand==null) {
-			LOG.error("Brand not found");
-			return Response.status(Status.NOT_FOUND).build();
+		if(securityContext.isUserInRole("ADMIN")) {
+			LOG.info("Deleting brand by id: " + id);
+			BrandDto deletedBrand = brandMapper.brandToBrandDto(brandService.deleteBrand(id));
+			if(deletedBrand==null) {
+				LOG.error("Brand not found");
+				return Response.status(Status.NOT_FOUND).build();
+			}
+			else {
+				LOG.info("Brand deleted");
+				return Response.status(Status.OK).entity(deletedBrand).build();
+			}
 		}
 		else {
-			LOG.info("Brand deleted");
-			return Response.status(Status.OK).entity(deletedBrand).build();
-		}
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}	
 	}
 	
 }

@@ -3,9 +3,13 @@ package com.everis.utils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
 import com.everis.entity.Country;
 import com.everis.entity.CountryDto;
 
+@Dependent
 public class CountryMapper {
 	public CountryDto countryToCountryDto(Country country) {
 		if(country==null) {
