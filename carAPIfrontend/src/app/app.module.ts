@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule} from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,9 @@ import { CountryTableComponent } from './country-table/country-table.component';
 import { CountryDetailsComponent } from './country-details/country-details.component';
 import { CreateCountryComponent } from './create-country/create-country.component';
 import { UpdateCountryComponent } from './update-country/update-country.component';
+import { CookieService } from 'ngx-cookie-service';
+import { JwtInterceptor } from './interceptor/jwt.interceptor';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import { UpdateCountryComponent } from './update-country/update-country.componen
     CountryTableComponent,
     CountryDetailsComponent,
     CreateCountryComponent,
-    UpdateCountryComponent
+    UpdateCountryComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,14 @@ import { UpdateCountryComponent } from './update-country/update-country.componen
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
