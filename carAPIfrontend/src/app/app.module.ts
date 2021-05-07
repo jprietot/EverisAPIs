@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule} from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +12,17 @@ import { CreateCarComponent } from './create-car/create-car.component';
 import { UpdateCarComponent } from './update-car/update-car.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { BrandTableComponent } from './brand-table/brand-table.component';
+import { BrandDetailsComponent } from './brand-details/brand-details.component';
+import { CreateBrandComponent } from './create-brand/create-brand.component';
+import { UpdateBrandComponent } from './update-brand/update-brand.component';
+import { CountryTableComponent } from './country-table/country-table.component';
+import { CountryDetailsComponent } from './country-details/country-details.component';
+import { CreateCountryComponent } from './create-country/create-country.component';
+import { UpdateCountryComponent } from './update-country/update-country.component';
+import { CookieService } from 'ngx-cookie-service';
+import { JwtInterceptor } from './interceptor/jwt.interceptor';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +31,16 @@ import { MaterialModule } from './material.module';
     CarDetailsComponent,
     MenuComponent,
     CreateCarComponent,
-    UpdateCarComponent
+    UpdateCarComponent,
+    BrandTableComponent,
+    BrandDetailsComponent,
+    CreateBrandComponent,
+    UpdateBrandComponent,
+    CountryTableComponent,
+    CountryDetailsComponent,
+    CreateCountryComponent,
+    UpdateCountryComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +50,14 @@ import { MaterialModule } from './material.module';
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

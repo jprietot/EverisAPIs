@@ -29,8 +29,9 @@ public class Brand {
 	@JsonbTransient
 	private Set<Car> cars = new HashSet<Car>();
 	
+	public Brand() {}
+	
 	public Brand(String id, String name) {
-		super();
 		this.id = id;
 		this.name = name;
 	}

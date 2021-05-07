@@ -7,6 +7,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
+interface ICar {
+  id: string;
+  brand: string;
+  country: string;
+  createdAt: Date;
+  registration: Date;
+  lastUpdated: Date;
+}
+
 @Component({
   selector: 'app-car-table',
   templateUrl: './car-table.component.html',
@@ -15,16 +24,28 @@ import { MatTableDataSource } from '@angular/material/table';
 export class CarTableComponent implements OnInit {
 
   displayedColumns = ['brand', 'country'];
-  dataSource!: MatTableDataSource<Car>;
+  dataSource!: MatTableDataSource<ICar>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private service: CarService, private router: Router) { 
     this.service.getCars().subscribe(cars =>{
-      this.dataSource = new MatTableDataSource(cars);
-      this.dataSource.paginator = this.paginator;
+      let mappedCars: Array<ICar> = [];
+      cars.forEach(car => {
+        let mappedObject: ICar = {
+          id: car.id,
+          brand: car.brand.name,
+          country: car.country.name,
+          createdAt: car.createdAt,
+          registration: car.registration,
+          lastUpdated: car.lastUpdated,
+        }
+        mappedCars.push(mappedObject);
+      })
+      this.dataSource = new MatTableDataSource(mappedCars);
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
   }
 

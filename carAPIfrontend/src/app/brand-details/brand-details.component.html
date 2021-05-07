@@ -1,0 +1,16 @@
+<table class="table w-50" *ngIf="brand | async as brand">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">NAME</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">{{brand.id}}</th>
+            <td>{{brand.name}}</td>
+            <td (click)="deleteBrand()">DELETE</td>
+            <td (click)="updateBrand()">UPDATE</td>
+        </tr>
+    </tbody>
+</table>
