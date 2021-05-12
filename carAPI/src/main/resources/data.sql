@@ -10,7 +10,7 @@ INSERT INTO brand(id, name) VALUES ('023ec98e-a737-11eb-bcbc-0242ac130002', 'Mer
 INSERT INTO brand(id, name) VALUES ('023eca92-a737-11eb-bcbc-0242ac130002', 'Audi');
 INSERT INTO brand(id, name) VALUES ('023ecb50-a737-11eb-bcbc-0242ac130002', 'Opel');
 INSERT INTO brand(id, name) VALUES ('023ecc18-a737-11eb-bcbc-0242ac130002', 'Seat');
-INSERT INTO brand(id, name) VALUES ('023eccd6-a737-11eb-bcbc-0242ac130002', 'Ferrari');
+INSERT INTO brand(id, name) VALUES ('023eccd6-a737-11eb-bcbc-0242ac130002', 'Lamborghini');
 
 INSERT INTO car (id, brand_id, country_id, createdat, lastupdated, registration) VALUES ('bd880d7c-a737-11eb-bcbc-0242ac130002', '023ec506-a737-11eb-bcbc-0242ac130002', '728b627a-a736-11eb-bcbc-0242ac130002', '2021-03-23 11:54:40', '2021-03-23 11:54:40', '2021-03-23 11:54:40');
 INSERT INTO car (id, brand_id, country_id, createdat, lastupdated, registration) VALUES ('bd880fac-a737-11eb-bcbc-0242ac130002', '023ec98e-a737-11eb-bcbc-0242ac130002', '728b64c8-a736-11eb-bcbc-0242ac130002', '2021-03-23 11:54:40', '2021-03-23 11:54:40', '2021-03-23 11:54:40');

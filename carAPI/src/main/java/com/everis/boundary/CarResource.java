@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import com.everis.control.CarService;
 import com.everis.entity.CarDto;
 import com.everis.filter.Secured;
+import com.everis.jms.Producer;
 import com.everis.utils.CarMapper;
 import com.everis.utils.LoggerInterceptor;
 
@@ -47,6 +48,9 @@ public class CarResource implements CarResourceInterface{
 	
 	@Inject
 	private CarMapper carMapper;
+	
+	@Inject
+	private Producer producer;
 	
 	@Context
 	SecurityContext securityContext;
@@ -139,6 +143,7 @@ public class CarResource implements CarResourceInterface{
 				return Response.status(Status.NOT_FOUND).build();
 			}
 			else {
+				producer.send(id);
 				LOG.info("Car updated");
 				return Response.status(Status.OK).entity(updCar).build();
 			}
