@@ -10,6 +10,7 @@ public class CarDto {
 	private Country country;
 	private LocalDateTime createdAt;
 	private LocalDateTime lastUpdated;
+	private boolean deleted;
 	
 	public String getId() {
 		return id;
@@ -58,4 +59,13 @@ public class CarDto {
 	public void setLastUpdated(LocalDateTime lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+	
 }

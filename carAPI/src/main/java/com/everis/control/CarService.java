@@ -1,5 +1,6 @@
 package com.everis.control;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -78,6 +79,7 @@ public class CarService {
 			return null;
 		}
 		else {
+			car.setLastUpdated(LocalDateTime.now());
 			carToUpdate = persistenceService.updateOne(carMapper.carDtoToCar(car));
 			return carToUpdate;
 		}
@@ -99,5 +101,24 @@ public class CarService {
 			carToDelete = persistenceService.deleteOne(carToDelete);
 			return carToDelete;
 		}
+	}
+	
+	@Transactional
+	public Car softDelete(String id) {
+		LOG.info("Updating car:");
+		CarDto car = carMapper.carToCarDto(persistenceService.getById(Car.class, id));
+		Car carToUpdate = persistenceService.getById(Car.class, id);
+		if(carToUpdate==null) {
+			return null;
+		}
+		else {
+			car.setDeleted(true);
+			carToUpdate = persistenceService.updateOne(carMapper.carDtoToCar(car));
+			return carToUpdate;
+		}
+	}
+	
+	public void deleteMarkedCars(){
+		persistenceService.execNamedQuery("Car.DeleteMarkedCars");
 	}
 }

@@ -7,12 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@NamedQuery(name="Car.GetAllCars", query="SELECT c FROM Car c")
+@NamedQueries({
+	@NamedQuery(name="Car.GetAllCars", query="SELECT c FROM Car c"),
+	@NamedQuery(name="Car.DeleteMarkedCars", query="DELETE FROM Car c WHERE c.deleted=true")
+})
+
 public class Car {
 	
 	@Id
@@ -35,6 +40,9 @@ public class Car {
 	@Column(nullable = false)
 	private LocalDateTime lastUpdated;
 	
+	@Column(nullable = true)
+	private boolean deleted;
+	
 	//Constructor por defecto
 	public Car() {}
 	
@@ -47,6 +55,7 @@ public class Car {
 		this.country = country;
 		this.createdAt = createdAt;
 		this.lastUpdated = lastUpdated;
+		this.deleted = false;
 	}
 	
 	public Car(Brand brand, LocalDateTime registration, Country country, LocalDateTime createdAt,
@@ -56,6 +65,7 @@ public class Car {
 		this.country = country;
 		this.createdAt = createdAt;
 		this.lastUpdated = lastUpdated;
+		this.deleted = false;
 	}
 
 	//Getters & Setters
@@ -106,7 +116,13 @@ public class Car {
 	public void setLastUpdated(LocalDateTime lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
-	
-	
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 	
 }
