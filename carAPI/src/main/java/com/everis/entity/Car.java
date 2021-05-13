@@ -7,14 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.SQLDelete;
 
 @Entity
-@SQLDelete(sql = "UPDATE car set deleted = true WHERE ID = ?")
-@NamedQuery(name="Car.GetAllCars", query="SELECT c FROM Car c")
+@NamedQueries({
+	@NamedQuery(name="Car.GetAllCars", query="SELECT c FROM Car c"),
+	@NamedQuery(name="Car.DeleteMarkedCars", query="DELETE FROM Car c WHERE c.deleted=true")
+})
+
 public class Car {
 	
 	@Id

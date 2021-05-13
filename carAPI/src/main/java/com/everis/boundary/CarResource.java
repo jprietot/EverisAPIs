@@ -163,7 +163,7 @@ public class CarResource implements CarResourceInterface{
 	public Response deleteCar(@PathParam("carId") String id) {
 		if(securityContext.isUserInRole("ADMIN")) {
 			LOG.info("Deleting car by id: " + id);
-			CarDto deletedCar = carMapper.carToCarDto(carService.deleteCar(id));
+			CarDto deletedCar = carMapper.carToCarDto(carService.softDelete(id));
 			if(deletedCar==null) {
 				LOG.error("Car not found");
 				return Response.status(Status.NOT_FOUND).build();

@@ -1,7 +1,10 @@
 package com.everis.timer;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.Timeout;
@@ -11,6 +14,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+
+import com.everis.control.CarService;
+import com.everis.entity.Car;
 
 
 @Startup
@@ -22,8 +28,8 @@ public class DeleteTimer {
 	@Resource
     private TimerService timerService;
 	
-	@PersistenceContext(unitName = "carAPI")
-	private EntityManager em;
+	@EJB
+	private CarService carService;
  
     @PostConstruct
     private void init() {
@@ -33,10 +39,7 @@ public class DeleteTimer {
 	@Timeout
 	public void deleteCars() {
 		LOG.info("Proceeding to delete marked cars");
-		
-		Query query = em.createQuery("DELETE FROM Car c WHERE c.deleted = true");
-		query.executeUpdate();
-		
+		carService.deleteMarkedCars();
 		LOG.info("Marked cars deletion completed");
 	}
 
