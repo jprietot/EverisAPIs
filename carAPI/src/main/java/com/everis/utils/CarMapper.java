@@ -23,6 +23,7 @@ public class CarMapper {
 			carDto.setRegistration(car.getRegistration());
 			carDto.setCreatedAt(car.getCreatedAt());
 			carDto.setLastUpdated(car.getLastUpdated());
+			carDto.setDeleted(car.isDeleted());
 			return carDto;
 		}
 	}
@@ -48,6 +49,7 @@ public class CarMapper {
 			car.setRegistration(carDto.getRegistration());
 			car.setCreatedAt(carDto.getCreatedAt());
 			car.setLastUpdated(carDto.getLastUpdated());
+			car.setDeleted(carDto.isDeleted());
 			return car;
 		}
 	}

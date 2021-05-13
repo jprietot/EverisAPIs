@@ -10,8 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
+@SQLDelete(sql = "UPDATE car set deleted = true WHERE ID = ?")
 @NamedQuery(name="Car.GetAllCars", query="SELECT c FROM Car c")
 public class Car {
 	
@@ -35,6 +37,9 @@ public class Car {
 	@Column(nullable = false)
 	private LocalDateTime lastUpdated;
 	
+	@Column(nullable = true)
+	private boolean deleted;
+	
 	//Constructor por defecto
 	public Car() {}
 	
@@ -47,6 +52,7 @@ public class Car {
 		this.country = country;
 		this.createdAt = createdAt;
 		this.lastUpdated = lastUpdated;
+		this.deleted = false;
 	}
 	
 	public Car(Brand brand, LocalDateTime registration, Country country, LocalDateTime createdAt,
@@ -56,6 +62,7 @@ public class Car {
 		this.country = country;
 		this.createdAt = createdAt;
 		this.lastUpdated = lastUpdated;
+		this.deleted = false;
 	}
 
 	//Getters & Setters
@@ -106,7 +113,13 @@ public class Car {
 	public void setLastUpdated(LocalDateTime lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
-	
-	
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 	
 }

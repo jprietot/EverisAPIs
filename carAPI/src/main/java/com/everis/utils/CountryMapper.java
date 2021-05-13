@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 
 import com.everis.entity.Country;
 import com.everis.entity.CountryDto;
