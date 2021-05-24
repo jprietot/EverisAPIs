@@ -60,7 +60,7 @@ Portions Copyright [2016-2020] [Payara Foundation and/or its affiliates]
         </jdbc-connection-pool>
         <jdbc-connection-pool datasource-classname="org.postgresql.ds.PGSimpleDataSource" name="postgrespool" res-type="javax.sql.DataSource">
       <property name="password" value="1234"></property>
-      <property name="serverName" value="localhost"></property>
+      <property name="serverName" value="172.21.0.1"></property>
       <property name="user" value="postgres"></property>
     </jdbc-connection-pool>
     <jdbc-resource pool-name="postgrespool" jndi-name="jdbc/postgrespool"></jdbc-resource>

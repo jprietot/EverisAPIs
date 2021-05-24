@@ -1,0 +1,10 @@
+FROM openjdk:11.0.8-jdk
+COPY startup.sh startup.sh
+COPY payara-micro-5.2021.3.jar payara-micro-5.2021.3.jar
+COPY activemq-rar-5.16.2.rar activemq-rar-5.16.2.rar
+COPY carAPI-0.0.1-SNAPSHOT.war carAPI-0.0.1-SNAPSHOT.war
+COPY domain.xml domain.xml
+ADD data.sql /docker-entrypoint-initdb.d
+EXPOSE 8081
+EXPOSE 61616
+CMD ["/bin/bash","startup.sh"]
