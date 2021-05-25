@@ -60,7 +60,7 @@ Portions Copyright [2016-2020] [Payara Foundation and/or its affiliates]
         </jdbc-connection-pool>
         <jdbc-connection-pool datasource-classname="org.postgresql.ds.PGSimpleDataSource" name="postgrespool" res-type="javax.sql.DataSource">
       <property name="password" value="1234"></property>
-      <property name="serverName" value="172.21.0.1"></property>
+      <property name="serverName" value="db-cont"></property>
       <property name="user" value="postgres"></property>
     </jdbc-connection-pool>
     <jdbc-resource pool-name="postgrespool" jndi-name="jdbc/postgrespool"></jdbc-resource>
@@ -68,7 +68,7 @@ Portions Copyright [2016-2020] [Payara Foundation and/or its affiliates]
     <connector-connection-pool max-pool-size="250" resource-adapter-name="jmsra" steady-pool-size="1" name="jms/__defaultConnectionFactory-Connection-Pool" connection-definition-name="javax.jms.ConnectionFactory"></connector-connection-pool>
     <connector-resource pool-name="jms/__defaultConnectionFactory-Connection-Pool" object-type="system-all-req" jndi-name="jms/__defaultConnectionFactory"></connector-resource>
     <resource-adapter-config resource-adapter-name="activemq-rar-5.16.2" thread-pool-ids="">
-      <property name="ServerUrl" value="tcp://localhost:61616"></property>
+      <property name="ServerUrl" value="tcp://activemq-cont:61616"></property>
       <property name="UserName" value="admin"></property>
       <property name="Password" value="admin"></property>
       <property name="UseInboundSession" value="false"></property>

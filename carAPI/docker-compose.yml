@@ -1,0 +1,26 @@
+version: "3"
+services:
+   car-api:
+      build: .
+      container_name: car-api-cont
+      image: car-api
+      ports:
+         - 8081:8081/tcp
+      depends_on:
+         - db
+   db:
+      container_name: db-cont
+      image: postgres
+      restart: always
+      ports:
+        - 5432:5432
+      environment:
+         POSTGRES_DB: postgres
+         POSTGRES_USER: postgres
+         POSTGRES_PASSWORD: 1234
+   activemq:
+      container_name: activemq-cont
+      image: rmohr/activemq:5.15.9
+      ports:
+        - 61616:61616
+        - 8161:8161
